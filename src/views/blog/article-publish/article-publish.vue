@@ -102,8 +102,8 @@
                             </TabPane>
                             <TabPane label="常用目录">
                                 <div class="classification-con">
-                                    <CheckboxGroup v-model="offenUsedClassSelected" @on-change="setClassificationInOffen">
-                                        <p v-for="item in offenUsedClass" :key="item.title">
+                                    <CheckboxGroup v-model="oftenUsedClassSelected" @on-change="setClassificationInOffen">
+                                        <p v-for="item in oftenUsedClass" :key="item.title">
                                             <Checkbox :label="item.title">{{ item.title }}</Checkbox>
                                         </p>
                                     </CheckboxGroup>
@@ -175,8 +175,8 @@ export default {
             articleTagList: [], // 所有标签列表
             classificationList: [],
             classificationSelected: [], // 在所有分类目录中选中的目录数组
-            offenUsedClass: [],
-            offenUsedClassSelected: [], // 常用目录选中的目录
+            oftenUsedClass: [],
+            oftenUsedClassSelected: [], // 常用目录选中的目录
             classificationFinalSelected: [], // 最后实际选择的目录
             publishLoading: false,
             addingNewTag: false, // 添加新标签
@@ -186,7 +186,6 @@ export default {
     methods: {
         handleArticletitleBlur () {
             if (this.articleTitle.length !== 0) {
-                // this.articleError = '';
                 localStorage.articleTitle = this.articleTitle; // 本地存储文章标题
                 if (!this.articlePathHasEdited) {
                     let date = new Date();
@@ -199,7 +198,6 @@ export default {
                     this.showLink = true;
                 }
             } else {
-                // this.articleError = '文章标题不可为空哦';
                 this.$Message.error('文章标题不可为空哦');
             }
         },
@@ -343,51 +341,15 @@ export default {
             {
                 title: 'Class与Style绑定',
                 expand: true,
-                children: [
-                    {
-                        title: '绑定HTML class',
-                        expand: true,
-                        children: [
-                            {
-                                title: '对象语法',
-                                expand: true
-                            },
-                            {
-                                title: '数组语法',
-                                expand: true
-                            },
-                            {
-                                title: '用在组件上',
-                                expand: true
-                            }
-                        ]
-                    },
-                    {
-                        title: '生命周期',
-                        expand: true
-                    }
-                ]
+                
             },
             {
                 title: '模板语法',
                 expand: true,
-                children: [
-                    {
-                        title: '插值',
-                        expand: true
-                    },
-                    {
-                        title: '指令',
-                        expand: true
-                    },
-                    {
-                        title: '缩写',
-                        expand: true
-                    }
-                ]
+                
             }
         ];
-        this.offenUsedClass = [
+        this.oftenUsedClass = [
             {
                 title: 'vue实例'
             },

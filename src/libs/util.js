@@ -7,7 +7,7 @@ let util = {
 
 };
 util.title = function (title) {
-    title = title || 'iBlog CMS';
+    title = title || 'iBlog-CMS';
     window.document.title = title;
 };
 
