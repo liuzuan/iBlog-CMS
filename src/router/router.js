@@ -40,7 +40,7 @@ export const page500 = {
 export const preview = {
     path: '/preview',
     name: 'preview',
-    component: () => import('@/views/my-components/article-publish/preview.vue')
+    component: () => import('@/views/blog/article-publish/preview.vue')
 };
 
 export const locking = {
@@ -133,28 +133,28 @@ export const appRouter = [
                 icon: 'compose',
                 name: 'text-editor',
                 title: '富文本编辑器',
-                component: () => import('@/views/my-components/text-editor/text-editor.vue')
+                component: () => import('@/views/blog/text-editor/text-editor.vue')
             },
             {
                 path: 'md-editor',
                 icon: 'pound',
                 name: 'md-editor',
                 title: 'Markdown编辑器',
-                component: () => import('@/views/my-components/markdown-editor/markdown-editor.vue')
+                component: () => import('@/views/blog/markdown-editor/markdown-editor.vue')
             },
             {
                 path: 'file-upload',
                 icon: 'android-upload',
                 name: 'file-upload',
                 title: '文件上传',
-                component: () => import('@/views/my-components/file-upload/file-upload.vue')
+                component: () => import('@/views/blog/file-upload/file-upload.vue')
             },
             {
                 path: 'artical-publish',
                 title: '文章发布',
                 name: 'artical-publish',
                 icon: 'compose',
-                component: () => import('@/views/my-components/article-publish/article-publish.vue')
+                component: () => import('@/views/blog/article-publish/article-publish.vue')
             }
         ]
     }

@@ -77,7 +77,7 @@
     import themeSwitch from './main-components/theme-switch/theme-switch.vue';
     import Cookies from 'js-cookie';
     import util from '@/libs/util.js';
-    import scrollBar from '@/views/my-components/scroll-bar/vue-scroller-bars';
+    import scrollBar from '@/views/blog/scroll-bar/vue-scroller-bars';
     
     export default {
         components: {
