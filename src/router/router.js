@@ -40,7 +40,7 @@ export const page500 = {
 export const preview = {
     path: '/preview',
     name: 'preview',
-    component: () => import('@/views/form/article-publish/preview.vue')
+    component: () => import('@/views/my-components/article-publish/preview.vue')
 };
 
 export const locking = {
@@ -148,13 +148,6 @@ export const appRouter = [
                 name: 'file-upload',
                 title: '文件上传',
                 component: () => import('@/views/my-components/file-upload/file-upload.vue')
-            },
-            {
-                path: 'editableTable',
-                title: '可编辑表格',
-                name: 'editable-table',
-                icon: 'edit',
-                component: () => import('@/views/tables/editable-table.vue')
             },
             {
                 path: 'artical-publish',

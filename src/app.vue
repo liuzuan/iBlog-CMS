@@ -1,6 +1,6 @@
 <template>
     <div id="main" class="app-main">
-        <router-view></router-view>
+        <router-view/>
     </div>
 </template>
 
@@ -11,15 +11,6 @@
                 theme: this.$store.state.app.themeColor
             };
         },
-        mounted () {
-
-        },
-        beforeDestroy () {
-
-        },
-        methods: {
-
-        }
     };
 </script>
 
