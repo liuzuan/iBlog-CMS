@@ -3,9 +3,7 @@ import env from '../../build/env';
 import semver from 'semver';
 import packjson from '../../package.json';
 
-let util = {
-
-};
+let util = {};
 util.title = function (title) {
     title = title || 'iBlog-CMS';
     window.document.title = title;
