@@ -150,11 +150,18 @@ export const appRouter = [
                 component: () => import('@/views/blog/file-upload/file-upload.vue')
             },
             {
-                path: 'artical-publish',
+                path: 'article-publish',
                 title: '文章发布',
-                name: 'artical-publish',
+                name: 'article-publish',
                 icon: 'compose',
                 component: () => import('@/views/blog/article-publish/article-publish.vue')
+            },
+            {
+                path: 'article-list',
+                title: '文章列表',
+                name: 'article-list',
+                icon: 'compose',
+                component: () => import('@/views/blog/article-list/index.vue')
             }
         ]
     }

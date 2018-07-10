@@ -10,7 +10,7 @@ util.title = function (title) {
 };
 
 const ajaxUrl = env === 'development'
-    ? 'http://127.0.0.1:3000'
+    ? 'http://localhost:3000'
     : 'https://blog.liuzuann.com'
 
 util.ajax = axios.create({
