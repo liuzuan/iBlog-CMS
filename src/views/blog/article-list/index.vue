@@ -107,13 +107,34 @@ export default {
                                         type: 'error',
                                         size: 'small'
                                     },
+                                    style: {
+                                        display: params.row.status == 1? '':'none'
+                                    },
                                     on: {
                                         click: () => {
-                                            this.delArticle(params.row._id);
+                                            this.handelArticleStatus(params.row._id,0);
                                         }
                                     }
                                 },
                                 '删除'
+                            ),
+                            h(
+                                'Button',
+                                {
+                                    props: {
+                                        type: 'ghost',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        display: params.row.status == 0? '':'none'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.handelArticleStatus(params.row._id,1);
+                                        }
+                                    }
+                                },
+                                '恢复'
                             )
                         ]);
                     }
@@ -149,22 +170,18 @@ export default {
         },
         toEditor(data){
             console.log(data)
-            this.$router.push({name:'article-publish',params:data})
+            this.$router.push({path:`article-publish/${data._id}`})
         },
-        delArticle(id){
-            editArticle({_id:id}).then(res=>{
+        handelArticleStatus(id,status){
+            editArticle({_id:id,status:status}).then(res=>{
                 this.$Message.success('文章删除成功！');
+                this.submitSearch()
             })
         },
     }
 };
 </script>
 <style lang="less">
-    .articleList {
-        .searchPanel {
-            // display: flex;
-        }
-    }
 </style>
 
 

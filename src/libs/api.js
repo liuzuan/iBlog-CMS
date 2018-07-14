@@ -16,5 +16,8 @@ export const getAllCategories = () => http('get', '/getAllCategories');
 // 获取文章内容
 export const getArticle = data => http('post', '/getArticle', data);
 
+// 添加文章
+export const addArticle = data => http('post', '/addArticle', data);
+
 // 文章软删除
 export const editArticle = data => http('post','/editArticle',data)

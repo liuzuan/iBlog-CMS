@@ -37,12 +37,6 @@ export const page500 = {
     component: () => import('@/views/error-page/500.vue')
 };
 
-export const preview = {
-    path: '/preview',
-    name: 'preview',
-    component: () => import('@/views/blog/article-publish/preview.vue')
-};
-
 export const locking = {
     path: '/locking',
     name: 'locking',
@@ -122,26 +116,12 @@ export const appRouter = [
         ]
     },
     {
-        path: '/component',
+        path: '/blog',
         icon: 'social-buffer',
         name: 'component',
         title: '博文管理',
         component: Main,
         children: [
-            {
-                path: 'text-editor',
-                icon: 'compose',
-                name: 'text-editor',
-                title: '富文本编辑器',
-                component: () => import('@/views/blog/text-editor/text-editor.vue')
-            },
-            {
-                path: 'md-editor',
-                icon: 'pound',
-                name: 'md-editor',
-                title: 'Markdown编辑器',
-                component: () => import('@/views/blog/markdown-editor/markdown-editor.vue')
-            },
             {
                 path: 'file-upload',
                 icon: 'android-upload',
@@ -150,17 +130,17 @@ export const appRouter = [
                 component: () => import('@/views/blog/file-upload/file-upload.vue')
             },
             {
-                path: 'article-publish',
-                title: '文章发布',
-                name: 'article-publish',
+                path: 'article-publish/:_id',
                 icon: 'compose',
+                name: 'article-publish',
+                title: '文章发布',
                 component: () => import('@/views/blog/article-publish/article-publish.vue')
             },
             {
                 path: 'article-list',
-                title: '文章列表',
+                icon: 'ios-list-outline',
                 name: 'article-list',
-                icon: 'compose',
+                title: '文章列表',
                 component: () => import('@/views/blog/article-list/index.vue')
             }
         ]
@@ -168,4 +148,4 @@ export const appRouter = [
 ];
 
 // 所有上面定义的路由都要写在下面的routers里
-export const routers = [loginRouter, otherRouter, preview, locking, ...appRouter, page500, page403, page404];
+export const routers = [loginRouter, otherRouter, locking, ...appRouter, page500, page403, page404];
