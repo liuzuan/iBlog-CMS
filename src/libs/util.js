@@ -11,7 +11,7 @@ util.title = function (title) {
 
 const ajaxUrl = env === 'development'
     ? 'http://localhost:3000'
-    : 'https://blog.liuzuann.com'
+    : 'http://blog.liuzuann.com'
 
 util.ajax = axios.create({
     baseURL: ajaxUrl,

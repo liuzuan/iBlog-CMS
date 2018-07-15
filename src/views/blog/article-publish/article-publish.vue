@@ -1,6 +1,10 @@
 <style lang="less">
     @import '../../../styles/common.less';
     @import './article-publish.less';
+    .CodeMirror,
+    .CodeMirror-scroll {
+        max-height: 635px;
+    }
 </style>
 
 <template>
@@ -8,18 +12,24 @@
         <Row>
             <Col span="18">
             <Card>
-                <Form :label-width="80">
-                    <FormItem label="文章标题">
-                        <Input v-model="articleData.title" />
+                <Form inline
+                      :label-width="80">
+                    <FormItem style="margin-bottom:0"
+                              label="文章标题">
+                        <Input style="width:400px"
+                               clearable
+                               v-model="articleData.title" />
                     </FormItem>
-                    <FormItem label="文章软链">
-                        <Input v-model="articleData.alias" />
+                    <FormItem style="margin-bottom:0"
+                              label="文章软链">
+                        <Input style="width:400px"
+                               clearable
+                               v-model="articleData.alias" />
                     </FormItem>
                 </Form>
                 <div class="margin-top-20">
                     <textarea ref='mde'
                               id="markdown_editor"></textarea>
-
                 </div>
             </Card>
             </Col>
@@ -77,7 +87,7 @@
 <script>
 import SimpleMDE from 'simplemde';
 import './simplemde.min.css';
-import { getAllCategories, getArticle, editArticle } from '@/libs/api';
+import { getAllCategories, getArticle, editArticle, addArticle } from '@/libs/api';
 export default {
     name: 'artical-publish',
     data() {
@@ -89,8 +99,8 @@ export default {
         };
     },
     created() {
-        if (this.$route.params._id) {
-            this.getArticle({ _id: this.$route.params._id });
+        if (this.$route.query._id) {
+            this.getArticle({ _id: this.$route.query._id });
             this.isAdd = false;
         } else {
             this.isAdd = true;
@@ -101,19 +111,14 @@ export default {
     methods: {
         getAllCategories() {
             getAllCategories().then(res => {
-                res.data.forEach(val => {
-                    val.title = val.name;
-                });
                 this.categories = res.data;
             });
         },
         getArticle(data) {
             data = data || {};
             getArticle(data).then(res => {
-                this.articleData = res.data[0];
+                this.articleData = res.data.data[0];
                 this.mde.value(this.articleData.content);
-
-                console.log(this.articleData);
             });
         },
         canPublish() {
@@ -152,8 +157,11 @@ export default {
                         res => {
                             this.$Message.success(res.data.desc);
                             this.publishLoading = false;
+                            this.mde.value('');
+                            this.articleData = {};
                         },
                         err => {
+                            console.log(err)
                             this.$Message.error(err.data.desc);
                         }
                     );
@@ -161,7 +169,10 @@ export default {
         },
         setMde() {
             this.mde = new SimpleMDE({
-                element: this.$refs.mde,
+                // element: this.$refs.mde,
+                element: document.getElementById('markdown_editor'),
+                placeholder: '支持Markdown语法',
+                tabSize: 4,
                 toolbar: [
                     'bold',
                     'italic',
@@ -193,6 +204,7 @@ export default {
         }
     },
     computed: {},
+    watch: {},
     mounted() {
         this.setMde();
     },

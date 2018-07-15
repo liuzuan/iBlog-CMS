@@ -130,7 +130,14 @@ export const appRouter = [
                 component: () => import('@/views/blog/file-upload/file-upload.vue')
             },
             {
-                path: 'article-publish/:_id',
+                path: 'category-list',
+                icon: 'ios-pricetags-outline',
+                name: 'category-list',
+                title: '分类列表',
+                component: () => import('@/views/blog/category-list/category-list.vue')
+            },
+            {
+                path: 'article-publish',
                 icon: 'compose',
                 name: 'article-publish',
                 title: '文章发布',
@@ -141,7 +148,7 @@ export const appRouter = [
                 icon: 'ios-list-outline',
                 name: 'article-list',
                 title: '文章列表',
-                component: () => import('@/views/blog/article-list/index.vue')
+                component: () => import('@/views/blog/article-list/article-list.vue')
             }
         ]
     }

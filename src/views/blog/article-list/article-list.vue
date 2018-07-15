@@ -28,8 +28,15 @@
                     @click='clearSearch'>清除</Button>
         </section>
         <Table stripe
+               :height='tableHeight'
                :columns="columns"
-               :data="data"></Table>
+               :data="tableData"></Table>
+        <Page style="margin:10px 0;float:right;"
+              :total="total"
+              :current.sync='page'
+              :page-size='pageSize'
+              show-total
+              @on-change='pageChange'></Page>
     </div>
 </template>
 <script>
@@ -41,6 +48,10 @@ export default {
             categoryOptions: [],
             statusOptions: [{ label: '已发布', value: 1 }, { label: '草稿', value: 0 }],
             searchParams: {},
+            page: 1,
+            pageSize: 10,
+            total: 0,
+            tableHeight: window.innerHeight - 210,
             columns: [
                 {
                     title: '状态',
@@ -71,9 +82,9 @@ export default {
                 {
                     title: '修改时间',
                     align: 'center',
-                    key: 'modifyTime',
+                    key: 'updateTime',
                     render: (h, params) => {
-                        return h('span', params.row.modifyTime.slice(0, 10));
+                        return h('span', params.row.updateTime.slice(0, 10));
                     }
                 },
                 {
@@ -108,11 +119,11 @@ export default {
                                         size: 'small'
                                     },
                                     style: {
-                                        display: params.row.status == 1? '':'none'
+                                        display: params.row.status == 1 ? '' : 'none'
                                     },
                                     on: {
                                         click: () => {
-                                            this.handelArticleStatus(params.row._id,0);
+                                            this.handelArticleStatus(params.row._id, 0);
                                         }
                                     }
                                 },
@@ -122,15 +133,15 @@ export default {
                                 'Button',
                                 {
                                     props: {
-                                        type: 'ghost',
+                                        type: 'success',
                                         size: 'small'
                                     },
                                     style: {
-                                        display: params.row.status == 0? '':'none'
+                                        display: params.row.status == 0 ? '' : 'none'
                                     },
                                     on: {
                                         click: () => {
-                                            this.handelArticleStatus(params.row._id,1);
+                                            this.handelArticleStatus(params.row._id, 1);
                                         }
                                     }
                                 },
@@ -140,19 +151,26 @@ export default {
                     }
                 }
             ],
-            data: []
+            tableData: []
         };
     },
     created() {
-        this.getArticle();
+        this.getList();
         this.getAllCategories();
     },
-    mounted() {},
+    mounted() {
+        window.onresize = () => {
+            this.tableHeight = window.innerHeight - 210;
+        };
+    },
     methods: {
-        getArticle(data) {
+        getList(data) {
             data = data || {};
+            data.page = this.page;
+            data.pageSize = this.pageSize;
             getArticle(data).then(res => {
-                this.data = res.data;
+                this.tableData = res.data.data;
+                this.total = res.data.count;
             });
         },
         getAllCategories() {
@@ -163,21 +181,25 @@ export default {
             });
         },
         submitSearch() {
-            this.getArticle(this.searchParams);
+            this.page = 1;
+            this.getList(this.searchParams);
         },
         clearSearch() {
             this.searchParams = {};
         },
-        toEditor(data){
-            console.log(data)
-            this.$router.push({path:`article-publish/${data._id}`})
+        toEditor(data) {
+            this.$router.push({ path: `article-publish?_id=${data._id}` });
         },
-        handelArticleStatus(id,status){
-            editArticle({_id:id,status:status}).then(res=>{
-                this.$Message.success('文章删除成功！');
-                this.submitSearch()
-            })
+        handelArticleStatus(id, status) {
+            editArticle({ _id: id, status: status }).then(res => {
+                status === 0 && this.$Message.success('文章删除成功！');
+                status === 1 && this.$Message.success('文章恢复成功！');
+                this.getList(this.searchParams);
+            });
         },
+        pageChange(page) {
+            this.getList(this.searchParams);
+        }
     }
 };
 </script>

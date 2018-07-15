@@ -18,12 +18,12 @@ fs.open('./build/env.js', 'w', function(err, fd) {
 
 module.exports = merge(webpackBaseConfig, {
     output: {
-        publicPath: 'https://iview.github.io/iview-admin/dist/',  // 修改 https://iv...admin 这部分为你的服务器域名 
+        publicPath: '/CMS/',  // 修改 https://iv...admin 这部分为你的服务器域名 
         filename: '[name].[hash].js',
         chunkFilename: '[name].[hash].chunk.js'
     },
     plugins: [
-        new cleanWebpackPlugin(['dist/*'], {
+        new cleanWebpackPlugin(['CMS/*'], {
             root: path.resolve(__dirname, '../')
         }),
         new ExtractTextPlugin({
@@ -57,23 +57,22 @@ module.exports = merge(webpackBaseConfig, {
         // }),
         new CopyWebpackPlugin([
             {
-                from: 'td_icon.ico'
-            },
-            {
-                from: 'src/styles/fonts',
-                to: 'fonts'
-            },
-            {
                 from: 'src/views/main-components/theme-switch/theme'
             },
-        ], {
-            ignore: [
-            ]
-        }),
+        ]),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: 'index.html',
-            inject: true
-        })
+            inject: true,
+            minify: {
+              removeComments: true,
+              collapseWhitespace: true,
+              removeAttributeQuotes: true
+              // more options:
+              // https://github.com/kangax/html-minifier#options-quick-reference
+            },
+            // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+            chunksSortMode: 'dependency'
+          }),
     ]
 });

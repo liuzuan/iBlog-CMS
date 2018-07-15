@@ -20,4 +20,10 @@ export const getArticle = data => http('post', '/getArticle', data);
 export const addArticle = data => http('post', '/addArticle', data);
 
 // 文章软删除
-export const editArticle = data => http('post','/editArticle',data)
+export const editArticle = data => http('post','/editArticle',data);
+
+// 添加分类
+export const addCategory = data => http('post','/addCategory',data);
+
+// 修改分类
+export const editCategory = data => http('post','/editCategory',data);

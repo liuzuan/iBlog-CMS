@@ -15,7 +15,7 @@ fs.open('./build/env.js', 'w', function(err, fd) {
 module.exports = merge(webpackBaseConfig, {
     devtool: '#source-map',
     output: {
-        publicPath: '/dist/',
+        publicPath: '/',
         filename: '[name].js',
         chunkFilename: '[name].chunk.js'
     },
@@ -29,9 +29,9 @@ module.exports = merge(webpackBaseConfig, {
             minChunks: Infinity
         }),
         new HtmlWebpackPlugin({
-            title: 'iView admin v' + package.version,
-            filename: '../index.html',
-            inject: false
+            filename: 'index.html',
+            template: 'index.html',
+            inject: true,
         }),
         new CopyWebpackPlugin([
             {

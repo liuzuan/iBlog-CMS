@@ -14,7 +14,7 @@ module.exports = {
         'vender-exten': '@/vendors/vendors.exten.js'
     },
     output: {
-        path: path.resolve(__dirname, '../dist/dist')
+        path: path.resolve(__dirname, '../../iBlog/public/CMS')
     },
     module: {
         rules: [
