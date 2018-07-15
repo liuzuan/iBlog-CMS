@@ -1,5 +1,8 @@
 <style lang="less">
-    @import './styles/menu.less';
+    .ivu-shrinkable-menu {
+        height: 100%;
+        width: 100%;
+    }
 </style>
 
 <template>

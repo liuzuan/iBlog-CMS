@@ -10,6 +10,15 @@ export const loginRouter = {
     component: () => import('@/views/login.vue')
 };
 
+export const registerRouter = {
+    path: '/register',
+    name: 'register',
+    meta: {
+        title: 'register - 注册'
+    },
+    component: () => import('@/views/register.vue')
+};
+
 export const page404 = {
     path: '/*',
     name: 'error-404',
@@ -101,21 +110,6 @@ export const appRouter = [
         ]
     },
     {
-        path: '/international',
-        icon: 'earth',
-        title: { i18n: 'international' },
-        name: 'international',
-        component: Main,
-        children: [
-            {
-                path: 'index',
-                title: { i18n: 'international' },
-                name: 'international_index',
-                component: () => import('@/views/international/international.vue')
-            }
-        ]
-    },
-    {
         path: '/blog',
         icon: 'social-buffer',
         name: 'component',
@@ -155,4 +149,4 @@ export const appRouter = [
 ];
 
 // 所有上面定义的路由都要写在下面的routers里
-export const routers = [loginRouter, otherRouter, locking, ...appRouter, page500, page403, page404];
+export const routers = [loginRouter,registerRouter, otherRouter, locking, ...appRouter, page500, page403, page404];

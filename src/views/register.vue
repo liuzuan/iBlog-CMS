@@ -9,7 +9,7 @@
             <Card :bordered="false">
                 <p slot="title">
                     <Icon type="log-in"></Icon>
-                    欢迎登录
+                    欢迎注册
                 </p>
                 <div class="form-con">
                     <Form ref="loginForm"
@@ -34,15 +34,26 @@
                             </span>
                             </Input>
                         </FormItem>
+                        <FormItem v-show='"1"'
+                                  prop="password">
+                            <Input type="password"
+                                   v-model="form.password2"
+                                   placeholder="请再次输入密码">
+                            <span slot="prepend">
+                                <Icon :size="14"
+                                      type="locked"></Icon>
+                            </span>
+                            </Input>
+                        </FormItem>
                         <FormItem>
                             <Button @click="handleSubmit"
                                     type="primary"
-                                    long>登录</Button>
+                                    long>注册</Button>
                         </FormItem>
                     </Form>
                     <div class="login-tip">
-                        <p>没有账号
-                            <router-link to='/register'>前往注册</router-link>
+                        <p>我有账号
+                            <router-link to='/login'>前往登录</router-link>
                         </p>
                     </div>
                 </div>
@@ -53,19 +64,19 @@
 
 <script>
 import Cookies from 'js-cookie';
-import {login} from '../libs/api.js';
-
+import {register} from '../libs/api.js';
 import sha1 from 'sha1';
 export default {
     data() {
         return {
             form: {
-                userName: 'admin',
+                userName: '',
                 password: ''
             },
             rules: {
                 userName: [{ required: true, message: '账号不能为空', trigger: 'change' }],
                 password: [{ required: true, message: '密码不能为空', trigger: 'change' }],
+                password2: [{ required: true, message: '密码不能为空', trigger: 'change' }]
             },
         };
     },
@@ -74,12 +85,14 @@ export default {
             this.$refs.loginForm.validate(async valid => {
                 if (valid) {
                     var newpwd = sha1(this.form.password);
-                    await login({userName:this.form.userName,password:newpwd}).then(res=>{
+                    await register({userName:this.form.userName,password:newpwd}).then(res=>{
                         if (res.data.success) {
                             this.$Message.success('登录成功！')
                             localStorage.setItem('userInfo',JSON.stringify(res.data))
                             Cookies.set('user', res.data.userName);
                             this.$router.push('/')
+                        } else {
+                            this.$Message.success(res.data.desc)
                         }
                     },err=>{
                         console.log(err)

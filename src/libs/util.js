@@ -5,13 +5,13 @@ import packjson from '../../package.json';
 
 let util = {};
 util.title = function (title) {
-    title = title || 'iBlog-CMS';
+    title = title || '刘祖安 | 博客管理系统';
     window.document.title = title;
 };
 
 const ajaxUrl = env === 'development'
-    ? 'http://localhost:3000'
-    : 'http://blog.liuzuann.com'
+    ? 'http://localhost:3000/cms'
+    : 'http://blog.liuzuann.com/cms'
 
 util.ajax = axios.create({
     baseURL: ajaxUrl,

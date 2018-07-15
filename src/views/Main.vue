@@ -13,8 +13,8 @@
                     :open-names="openedSubmenuArr"
                     :menu-list="menuList">
                     <div slot="top" class="logo-con">
-                        <img v-show="!shrink"  src="../images/logo.jpg" key="max-logo" />
-                        <img v-show="shrink" src="../images/logo-min.jpg" key="min-logo" />
+                        <p v-show="!shrink">博客管理系统</p>
+                        <img v-show="shrink" src="http://liuzuann.com/image/favicon.ico" key="min-logo" />
                     </div>
                 </shrinkable-menu>
             </scroll-bar>
@@ -109,7 +109,7 @@
                 return this.$store.state.app.currentPath; // 当前面包屑数组
             },
             avatorPath () {
-                return localStorage.avatorImgPath;
+                return JSON.parse(localStorage.userInfo).avatar_url;
             },
             cachePage () {
                 return this.$store.state.app.cachePage;
