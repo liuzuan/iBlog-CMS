@@ -68,6 +68,13 @@ import {register} from '../libs/api.js';
 import sha1 from 'sha1';
 export default {
     data() {
+        const valideRePassword = (rule, value, callback) => {
+            if (value !== this.editPasswordForm.newPass) {
+                callback(new Error('两次输入密码不一致'));
+            } else {
+                callback();
+            }
+        };
         return {
             form: {
                 userName: '',
@@ -75,8 +82,15 @@ export default {
             },
             rules: {
                 userName: [{ required: true, message: '账号不能为空', trigger: 'change' }],
-                password: [{ required: true, message: '密码不能为空', trigger: 'change' }],
-                password2: [{ required: true, message: '密码不能为空', trigger: 'change' }]
+                password: [
+                    { required: true, message: '请输入新密码', trigger: 'blur' },
+                    { min: 6, message: '请至少输入6个字符', trigger: 'blur' },
+                    { max: 32, message: '最多输入32个字符', trigger: 'blur' }
+                ],
+                password2: [
+                    { required: true, message: '请再次输入新密码', trigger: 'blur' },
+                    { validator: valideRePassword, trigger: 'blur' }
+                ],
             },
         };
     },
@@ -87,9 +101,10 @@ export default {
                     var newpwd = sha1(this.form.password);
                     await register({userName:this.form.userName,password:newpwd}).then(res=>{
                         if (res.data.success) {
+                            
                             this.$Message.success('登录成功！')
-                            localStorage.setItem('userInfo',JSON.stringify(res.data))
-                            Cookies.set('user', res.data.userName);
+                            localStorage.setItem('userInfo',JSON.stringify(res.data.data))
+                            Cookies.set('user', res.data.data.userName);
                             this.$router.push('/')
                         } else {
                             this.$Message.success(res.data.desc)

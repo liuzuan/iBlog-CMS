@@ -33,13 +33,5 @@ module.exports = merge(webpackBaseConfig, {
             template: 'index.html',
             inject: true,
         }),
-        new CopyWebpackPlugin([
-            {
-                from: 'src/views/main-components/theme-switch/theme'
-            },
-        ], {
-            ignore: [
-            ]
-        })
     ]
 });

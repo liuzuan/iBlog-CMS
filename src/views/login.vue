@@ -76,10 +76,18 @@ export default {
                     var newpwd = sha1(this.form.password);
                     await login({userName:this.form.userName,password:newpwd}).then(res=>{
                         if (res.data.success) {
+                            const userInfo = res.data.data;
+                            if (userInfo.is_manager === 1) {
+                                Cookies.set('access', 0);
+                            } else {
+                                Cookies.set('access', 1);
+                            }
                             this.$Message.success('登录成功！')
-                            localStorage.setItem('userInfo',JSON.stringify(res.data))
-                            Cookies.set('user', res.data.userName);
+                            localStorage.setItem('userInfo',JSON.stringify(userInfo))
+                            Cookies.set('user', userInfo.userName);
                             this.$router.push('/')
+                        } else {
+                            this.$Message.success(res.data.desc)
                         }
                     },err=>{
                         console.log(err)

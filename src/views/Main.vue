@@ -35,7 +35,6 @@
                     <full-screen v-model="isFullScreen" @on-change="fullscreenChange"></full-screen>
                     <lock-screen></lock-screen>
                     <message-tip v-model="mesCount"></message-tip>
-                    <theme-switch></theme-switch>
                     
                     <div class="user-dropdown-menu-con">
                         <Row type="flex" justify="end" align="middle" class="user-dropdown-innercon">
@@ -74,7 +73,6 @@
     import fullScreen from './main-components/fullscreen.vue';
     import lockScreen from './main-components/lockscreen/lockscreen.vue';
     import messageTip from './main-components/message-tip.vue';
-    import themeSwitch from './main-components/theme-switch/theme-switch.vue';
     import Cookies from 'js-cookie';
     import util from '@/libs/util.js';
     import scrollBar from '@/views/blog/scroll-bar/vue-scroller-bars';
@@ -87,13 +85,11 @@
             fullScreen,
             lockScreen,
             messageTip,
-            themeSwitch,
             scrollBar
         },
         data () {
             return {
                 shrink: false,
-                userName: '',
                 isFullScreen: false,
                 openedSubmenuArr: this.$store.state.app.openedSubmenuArr
             };
@@ -110,6 +106,9 @@
             },
             avatorPath () {
                 return JSON.parse(localStorage.userInfo).avatar_url;
+            },
+            userName () {
+                return JSON.parse(localStorage.userInfo).userName;
             },
             cachePage () {
                 return this.$store.state.app.cachePage;
@@ -131,7 +130,6 @@
                 if (pathArr.length >= 2) {
                     this.$store.commit('addOpenSubmenu', pathArr[1].name);
                 }
-                this.userName = Cookies.get('user');
                 let messageCount = 3;
                 this.messageCount = messageCount.toString();
                 this.checkTag(this.$route.name);
@@ -203,10 +201,10 @@
             }
         },
         mounted () {
-            this.init();
             window.addEventListener('resize', this.scrollBarResize);
         },
         created () {
+            this.init();
             // 显示打开的页面的列表
             this.$store.commit('setOpenedList');
         },

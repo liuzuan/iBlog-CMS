@@ -55,11 +55,6 @@ module.exports = merge(webpackBaseConfig, {
         //       drop_debugger: true
         //      }
         // }),
-        new CopyWebpackPlugin([
-            {
-                from: 'src/views/main-components/theme-switch/theme'
-            },
-        ]),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: 'index.html',
