@@ -106,7 +106,6 @@ export default {
             this.isAdd = true;
         }
         this.getAllCategories();
-        this.articleData = this.$route.params;
     },
     methods: {
         getAllCategories() {
@@ -118,6 +117,7 @@ export default {
             data = data || {};
             getArticle(data).then(res => {
                 this.articleData = res.data.data[0];
+                this.articleData.categoryName = this.articleData.category.name
                 this.mde.value(this.articleData.content);
             });
         },
@@ -142,6 +142,11 @@ export default {
         handlePublish() {
             if (this.canPublish()) {
                 this.publishLoading = true;
+                this.categories.forEach(val => {
+                    if (val.name === this.articleData.categoryName) {
+                        this.articleData.category = val._id
+                    }
+                });
                 !this.isAdd &&
                     editArticle(this.articleData).then(
                         res => {
@@ -161,7 +166,7 @@ export default {
                             this.articleData = {};
                         },
                         err => {
-                            console.log(err)
+                            console.log(err);
                             this.$Message.error(err.data.desc);
                         }
                     );

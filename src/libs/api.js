@@ -22,6 +22,9 @@ export const addArticle = data => http('post', '/addArticle', data);
 // 文章软删除
 export const editArticle = data => http('post', '/editArticle', data);
 
+// 文章删除
+export const delArticle = data => http('post', '/delArticle', data);
+
 // 添加分类
 export const addCategory = data => http('post', '/addCategory', data);
 

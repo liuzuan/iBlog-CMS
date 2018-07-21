@@ -117,13 +117,6 @@ export const appRouter = [
         component: Main,
         children: [
             {
-                path: 'file-upload',
-                icon: 'android-upload',
-                name: 'file-upload',
-                title: '文件上传',
-                component: () => import('@/views/blog/file-upload/file-upload.vue')
-            },
-            {
                 path: 'category-list',
                 icon: 'ios-pricetags-outline',
                 name: 'category-list',
@@ -145,8 +138,23 @@ export const appRouter = [
                 component: () => import('@/views/blog/article-list/article-list.vue')
             }
         ]
+    },
+    {
+        path: '/image',
+        icon: 'android-upload',
+        name: 'image',
+        title: '图片管理',
+        component: Main,
+        children: [
+            {
+                path: 'upload',
+                title: '文件上传',
+                name: 'upload',
+                component: () => import('@/views/image-manage/upload/upload.vue')
+            }
+        ]
     }
 ];
 
 // 所有上面定义的路由都要写在下面的routers里
-export const routers = [loginRouter,registerRouter, otherRouter, locking, ...appRouter, page500, page403, page404];
+export const routers = [loginRouter, registerRouter, otherRouter, locking, ...appRouter, page500, page403, page404];

@@ -26,6 +26,10 @@
             <Button type="primary"
                     icon="ios-search"
                     @click='clearSearch'>清除</Button>
+            <i-switch style='float:right;margin-top:4px;'
+                      v-model="canDel">
+            </i-switch>
+
         </section>
         <Table stripe
                :height='tableHeight'
@@ -40,17 +44,18 @@
     </div>
 </template>
 <script>
-import { getAllCategories, getArticle, editArticle } from '@/libs/api';
+import { getAllCategories, getArticle, editArticle, delArticle } from '@/libs/api';
 export default {
     name: 'artical-list',
     data() {
         return {
             categoryOptions: [],
             statusOptions: [{ label: '已发布', value: 1 }, { label: '草稿', value: 0 }],
-            searchParams: {},
+            searchParams: { status: 1 },
             page: 1,
             pageSize: 10,
             total: 0,
+            canDel: false,
             tableHeight: window.innerHeight - 210,
             columns: [
                 {
@@ -64,7 +69,10 @@ export default {
                 {
                     title: '所属分类',
                     align: 'center',
-                    key: 'categoryName'
+                    key: 'category',
+                    render: (h, params) => {
+                        return h('span', params.row.category ? params.row.category.name : params.row.categoryName);
+                    }
                 },
                 {
                     title: '文章标题',
@@ -127,7 +135,7 @@ export default {
                                         }
                                     }
                                 },
-                                '删除'
+                                this.canDel ? '删除' : '隐藏'
                             ),
                             h(
                                 'Button',
@@ -155,7 +163,7 @@ export default {
         };
     },
     created() {
-        this.getList();
+        this.getList(this.searchParams);
         this.getAllCategories();
     },
     mounted() {
@@ -165,7 +173,7 @@ export default {
     },
     methods: {
         getList(data) {
-            data = data || {};
+            data = data || { status: 1 };
             data.page = this.page;
             data.pageSize = this.pageSize;
             getArticle(data).then(res => {
@@ -191,11 +199,18 @@ export default {
             this.$router.push({ path: `article-publish?_id=${data._id}` });
         },
         handelArticleStatus(id, status) {
-            editArticle({ _id: id, status: status }).then(res => {
-                status === 0 && this.$Message.success('文章删除成功！');
-                status === 1 && this.$Message.success('文章恢复成功！');
-                this.getList(this.searchParams);
-            });
+            if (this.canDel && status === 0) {
+                delArticle({ _id: id }).then(res => {
+                    this.$Message.success('文章删除成功！');
+                    this.getList(this.searchParams);
+                });
+            } else {
+                editArticle({ _id: id, status: status }).then(res => {
+                    status === 0 && this.$Message.success('文章隐藏成功！');
+                    status === 1 && this.$Message.success('文章恢复成功！');
+                    this.getList(this.searchParams);
+                });
+            }
         },
         pageChange(page) {
             this.getList(this.searchParams);
