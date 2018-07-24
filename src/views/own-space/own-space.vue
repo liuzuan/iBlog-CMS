@@ -15,10 +15,14 @@
                       :label-width="100"
                       label-position="right"
                       :rules="validate">
+                    <FormItem label="用户头像：">
+                        <img :src="userForm.avatar_url"
+                             alt="">
+                    </FormItem>
                     <FormItem label="用户姓名："
-                              prop="name">
-                        <div style="display:inline-block;width:300px;">
-                            <Input v-model="userInfo.userName"></Input>
+                              prop="userName">
+                        <div style="display:inline-block;width:200px;">
+                            <Input v-model="userForm.userName"></Input>
                         </div>
                     </FormItem>
                     <FormItem label="登录密码：">
@@ -98,7 +102,7 @@ export default {
         };
         return {
             userForm: {
-                name: '',
+                userName: '',
                 cellphone: '',
                 company: '',
                 department: ''
@@ -114,8 +118,7 @@ export default {
                 rePass: ''
             },
             validate: {
-                name: [{ required: true, message: '请输入姓名', trigger: 'change' }],
-                cellphone: [{ required: true, message: '请输入手机号码' }, { validator: validePhone }],
+                userName: [{ required: true, message: '请输入姓名', trigger: 'change' }],
                 oldPass: [{ required: true, message: '请输入原密码', trigger: 'change' }],
                 newPass: [
                     { required: true, message: '请输入新密码', trigger: 'change' },
@@ -130,10 +133,9 @@ export default {
             initPhone: ''
         };
     },
-    computed: {
-        userInfo() {
-            return JSON.parse(localStorage.userInfo);
-        }
+    mounted() {
+        const { userName, avatar_url, _id } = JSON.parse(localStorage.userInfo);
+        this.userForm = { userName, avatar_url, _id };
     },
     methods: {
         showEditPassword() {

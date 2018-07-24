@@ -53,20 +53,20 @@
 
 <script>
 import Cookies from 'js-cookie';
-import {login} from '../libs/api.js';
+import { login } from '../libs/api.js';
 
 import sha1 from 'sha1';
 export default {
     data() {
         return {
             form: {
-                userName: 'admin',
+                userName: '',
                 password: ''
             },
             rules: {
                 userName: [{ required: true, message: '账号不能为空', trigger: 'change' }],
-                password: [{ required: true, message: '密码不能为空', trigger: 'change' }],
-            },
+                password: [{ required: true, message: '密码不能为空', trigger: 'change' }]
+            }
         };
     },
     methods: {
@@ -74,28 +74,33 @@ export default {
             this.$refs.loginForm.validate(async valid => {
                 if (valid) {
                     var newpwd = sha1(this.form.password);
-                    await login({userName:this.form.userName,password:newpwd}).then(res=>{
-                        if (res.data.success) {
-                            const userInfo = res.data.data;
-                            console.log(userInfo)
-                            if (userInfo.is_manager === 1) {
-                                Cookies.set('access', 0);
+                    await login({ userName: this.form.userName, password: newpwd }).then(
+                        res => {
+                            if (res.data.success) {
+                                const userInfo = res.data.data;
+                                if (userInfo.is_manager === 1) {
+                                    Cookies.set('access', 0);
+                                } else {
+                                    Cookies.set('access', 1);
+                                }
+                                this.$Notice.success({
+                                    title: '登录成功！',
+                                    duration: 3
+                                });
+                                localStorage.setItem('userInfo', JSON.stringify(userInfo));
+                                Cookies.set('user', userInfo.userName);
+                                this.$router.push('/');
                             } else {
-                                Cookies.set('access', 1);
+                                this.$Message.warning(res.data.desc);
                             }
-                            this.$Message.success('登录成功！')
-                            localStorage.setItem('userInfo',JSON.stringify(userInfo))
-                            Cookies.set('user', userInfo.userName);
-                            this.$router.push('/')
-                        } else {
-                            this.$Message.success(res.data.desc)
+                        },
+                        err => {
+                            console.log(err);
                         }
-                    },err=>{
-                        console.log(err)
-                    })
+                    );
                 }
             });
-        },
+        }
     }
 };
 </script>

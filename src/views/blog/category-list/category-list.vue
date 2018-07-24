@@ -58,7 +58,7 @@ export default {
             },
             loading: false,
             ruleValidate: {
-                name: [{ required: true, message: '请填写分类名称', trigger: 'blur' }]
+                name: [{ required: true, message: '请填写分类名称', trigger: 'change' }]
             },
             columns: [
                 {
@@ -166,8 +166,11 @@ export default {
             this.$refs.newData.validate(valid => {
                 if (valid) {
                     this.loading = true;
+                    this.newData.link = this.newData.link || this.newData.name;
+                    let {_id, name, link ,status} = this.newData
+                    let params = {_id, name, link ,status}
                     this.isCreate &&
-                        addCategory(this.newData).then(
+                        addCategory(params).then(
                             res => {
                                 this.handleCancel();
                                 this.$Message.success(res.data.desc);
@@ -179,8 +182,9 @@ export default {
                             }
                         );
                     !this.isCreate &&
-                        editCategory(this.newData).then(
+                        editCategory(params).then(
                             res => {
+                                console.log(res)
                                 this.handleCancel();
                                 this.$Message.success(res.data.desc);
                                 this.getList();

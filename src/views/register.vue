@@ -35,7 +35,7 @@
                             </Input>
                         </FormItem>
                         <FormItem v-show='"1"'
-                                  prop="password">
+                                  prop="password2">
                             <Input type="password"
                                    v-model="form.password2"
                                    placeholder="请再次输入密码">
@@ -69,7 +69,7 @@ import sha1 from 'sha1';
 export default {
     data() {
         const valideRePassword = (rule, value, callback) => {
-            if (value !== this.editPasswordForm.newPass) {
+            if (value !== this.form.password) {
                 callback(new Error('两次输入密码不一致'));
             } else {
                 callback();
@@ -78,18 +78,18 @@ export default {
         return {
             form: {
                 userName: '',
-                password: ''
+                password: '',
             },
             rules: {
                 userName: [{ required: true, message: '账号不能为空', trigger: 'change' }],
                 password: [
-                    { required: true, message: '请输入新密码', trigger: 'blur' },
-                    { min: 6, message: '请至少输入6个字符', trigger: 'blur' },
-                    { max: 32, message: '最多输入32个字符', trigger: 'blur' }
+                    { required: true, message: '请输入新密码', trigger: 'change' },
+                    { min: 6, message: '请至少输入6个字符', trigger: 'change' },
+                    { max: 16, message: '最多输入16个字符', trigger: 'change' }
                 ],
                 password2: [
-                    { required: true, message: '请再次输入新密码', trigger: 'blur' },
-                    { validator: valideRePassword, trigger: 'blur' }
+                    { required: true, message: '请再次输入新密码', trigger: 'change' },
+                    { validator: valideRePassword, trigger: 'change' }
                 ],
             },
         };

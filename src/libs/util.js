@@ -1,24 +1,31 @@
 import axios from 'axios';
 import env from '../../build/env';
-import semver from 'semver';
-import packjson from '../../package.json';
 
 let util = {};
-util.title = function (title) {
+util.title = function(title) {
     title = title || '刘祖安 | 博客管理系统';
     window.document.title = title;
 };
 
-const ajaxUrl = env === 'development'
-    ? 'http://localhost:3000/cms'
-    : 'http://blog.liuzuann.com/cms'
+const ajaxUrl = env === 'development' ? 'http://localhost:3000/cms' : 'http://blog.liuzuann.com/cms';
 
 util.ajax = axios.create({
     baseURL: ajaxUrl,
     timeout: 30000
 });
 
-util.inOf = function (arr, targetArr) {
+util.ajax.interceptors.request.use(
+    function(config) {
+        config.headers.Authorization = (localStorage.userInfo && JSON.parse(localStorage.userInfo).token) || '';
+        return config;
+    },
+    function(error) {
+        // 对请求错误做些什么
+        return Promise.reject(error);
+    }
+);
+
+util.inOf = function(arr, targetArr) {
     let res = true;
     arr.forEach(item => {
         if (targetArr.indexOf(item) < 0) {
@@ -28,7 +35,7 @@ util.inOf = function (arr, targetArr) {
     return res;
 };
 
-util.oneOf = function (ele, targetArr) {
+util.oneOf = function(ele, targetArr) {
     if (targetArr.indexOf(ele) >= 0) {
         return true;
     } else {
@@ -36,7 +43,7 @@ util.oneOf = function (ele, targetArr) {
     }
 };
 
-util.showThisRoute = function (itAccess, currentAccess) {
+util.showThisRoute = function(itAccess, currentAccess) {
     if (typeof itAccess === 'object' && Array.isArray(itAccess)) {
         return util.oneOf(currentAccess, itAccess);
     } else {
@@ -44,7 +51,7 @@ util.showThisRoute = function (itAccess, currentAccess) {
     }
 };
 
-util.getRouterObjByName = function (routers, name) {
+util.getRouterObjByName = function(routers, name) {
     if (!name || !routers || !routers.length) {
         return null;
     }
@@ -62,7 +69,7 @@ util.getRouterObjByName = function (routers, name) {
     return null;
 };
 
-util.handleTitle = function (vm, item) {
+util.handleTitle = function(vm, item) {
     if (typeof item.title === 'object') {
         return vm.$t(item.title.i18n);
     } else {
@@ -70,7 +77,7 @@ util.handleTitle = function (vm, item) {
     }
 };
 
-util.setCurrentPath = function (vm, name) {
+util.setCurrentPath = function(vm, name) {
     let title = '';
     let isOtherRouter = false;
     vm.$store.state.app.routers.forEach(item => {
@@ -153,7 +160,7 @@ util.setCurrentPath = function (vm, name) {
                 }
             ];
         } else {
-            let childObj = currentPathObj.children.filter((child) => {
+            let childObj = currentPathObj.children.filter(child => {
                 return child.name === name;
             })[0];
             currentPathArr = [
@@ -180,13 +187,14 @@ util.setCurrentPath = function (vm, name) {
     return currentPathArr;
 };
 
-util.openNewPage = function (vm, name, argu, query) {
+util.openNewPage = function(vm, name, argu, query) {
     let pageOpenedList = vm.$store.state.app.pageOpenedList;
     let openedPageLen = pageOpenedList.length;
     let i = 0;
     let tagHasOpened = false;
     while (i < openedPageLen) {
-        if (name === pageOpenedList[i].name) { // 页面已经打开
+        if (name === pageOpenedList[i].name) {
+            // 页面已经打开
             vm.$store.commit('pageOpenedList', {
                 index: i,
                 argu: argu,
@@ -198,7 +206,7 @@ util.openNewPage = function (vm, name, argu, query) {
         i++;
     }
     if (!tagHasOpened) {
-        let tag = vm.$store.state.app.tagsList.filter((item) => {
+        let tag = vm.$store.state.app.tagsList.filter(item => {
             if (item.children) {
                 return name === item.children[0].name;
             } else {
@@ -220,7 +228,7 @@ util.openNewPage = function (vm, name, argu, query) {
     vm.$store.commit('setCurrentPageName', name);
 };
 
-util.toDefaultPage = function (routers, name, route, next) {
+util.toDefaultPage = function(routers, name, route, next) {
     let len = routers.length;
     let i = 0;
     let notHandle = true;
@@ -240,26 +248,11 @@ util.toDefaultPage = function (routers, name, route, next) {
     }
 };
 
-util.fullscreenEvent = function (vm) {
+util.fullscreenEvent = function(vm) {
     vm.$store.commit('initCachepage');
     // 权限菜单过滤相关
     vm.$store.commit('updateMenulist');
     // 全屏相关
-};
-
-util.checkUpdate = function (vm) {
-    axios.get('https://api.github.com/repos/iview/iview-admin/releases/latest').then(res => {
-        let version = res.data.tag_name;
-        vm.$Notice.config({
-            duration: 0
-        });
-        if (semver.lt(packjson.version, version)) {
-            vm.$Notice.info({
-                title: 'iview-admin更新啦',
-                desc: '<p>iView-admin更新到了' + version + '了，去看看有哪些变化吧</p><a style="font-size:13px;" href="https://github.com/iview/iview-admin/releases" target="_blank">前往github查看</a>'
-            });
-        }
-    });
 };
 
 export default util;
