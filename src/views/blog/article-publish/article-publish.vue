@@ -147,6 +147,8 @@ export default {
                         this.articleData.category = val._id
                     }
                 });
+                delete this.articleData.createTime;
+                delete this.articleData.updateTime;
                 !this.isAdd &&
                     editArticle(this.articleData).then(
                         res => {

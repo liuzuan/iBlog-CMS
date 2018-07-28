@@ -18,7 +18,7 @@ fs.open('./build/env.js', 'w', function(err, fd) {
 
 module.exports = merge(webpackBaseConfig, {
     output: {
-        publicPath: '/CMS/',  // 修改 https://iv...admin 这部分为你的服务器域名 
+        publicPath: '/CMS/',
         filename: '[name].[hash].js',
         chunkFilename: '[name].[hash].chunk.js'
     },
@@ -30,21 +30,19 @@ module.exports = merge(webpackBaseConfig, {
             filename: '[name].[hash].css',
             allChunks: true
         }),
-        new webpack.optimize.CommonsChunkPlugin({
-            // name: 'vendors',
-            // filename: 'vendors.[hash].js'
-            name: ['vender-exten', 'vender-base'],
-            minChunks: Infinity
-        }),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: '"production"'
             }
         }),
         new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            }
+            uglifyOptions: {
+                compress: {
+                    warnings: false
+                }
+            },
+            sourceMap: false,
+            parallel: true
         }),
         // new UglifyJsParallelPlugin({
         //     workers: os.cpus().length,
@@ -60,14 +58,14 @@ module.exports = merge(webpackBaseConfig, {
             template: 'index.html',
             inject: true,
             minify: {
-              removeComments: true,
-              collapseWhitespace: true,
-              removeAttributeQuotes: true
-              // more options:
-              // https://github.com/kangax/html-minifier#options-quick-reference
+                removeComments: true,
+                collapseWhitespace: true,
+                removeAttributeQuotes: true
+                // more options:
+                // https://github.com/kangax/html-minifier#options-quick-reference
             },
             // necessary to consistently work with multiple chunks via CommonsChunkPlugin
             chunksSortMode: 'dependency'
-          }),
+        })
     ]
 });

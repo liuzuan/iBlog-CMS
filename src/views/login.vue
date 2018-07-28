@@ -6,47 +6,38 @@
     <div class="login"
          @keydown.enter="handleSubmit">
         <div class="login-con">
-            <Card :bordered="false">
-                <p slot="title">
-                    <Icon type="log-in"></Icon>
-                    欢迎登录
-                </p>
-                <div class="form-con">
-                    <Form ref="loginForm"
-                          :model="form"
-                          :rules="rules">
-                        <FormItem prop="userName">
-                            <Input v-model="form.userName"
-                                   placeholder="请输入用户名">
-                            <span slot="prepend">
-                                <Icon :size="16"
-                                      type="person"></Icon>
-                            </span>
-                            </Input>
-                        </FormItem>
-                        <FormItem prop="password">
-                            <Input type="password"
-                                   v-model="form.password"
-                                   placeholder="请输入密码">
-                            <span slot="prepend">
-                                <Icon :size="14"
-                                      type="locked"></Icon>
-                            </span>
-                            </Input>
-                        </FormItem>
-                        <FormItem>
-                            <Button @click="handleSubmit"
-                                    type="primary"
-                                    long>登录</Button>
-                        </FormItem>
-                    </Form>
-                    <div class="login-tip">
-                        <p>没有账号
-                            <router-link to='/register'>前往注册</router-link>
-                        </p>
-                    </div>
+            <p class='login-con-header'
+               slot="title">
+                欢迎登录
+            </p>
+            <div class="form-con">
+                <Form ref="loginForm"
+                      :model="form"
+                      :rules="rules">
+                    <FormItem prop="userName">
+                        <Input v-model="form.userName"
+                               placeholder="用户名">
+                        </Input>
+                    </FormItem>
+                    <FormItem prop="password">
+                        <Input type="password"
+                               v-model="form.password"
+                               placeholder="密码">
+                        </Input>
+                    </FormItem>
+                    <FormItem>
+                        <Button @click="handleSubmit"
+                                type="primary"
+                                icon='log-in'
+                                long>登录</Button>
+                    </FormItem>
+                </Form>
+                <div class="login-tip">
+                    <p>没有账号
+                        <router-link to='/register'>前往注册</router-link>
+                    </p>
                 </div>
-            </Card>
+            </div>
         </div>
     </div>
 </template>

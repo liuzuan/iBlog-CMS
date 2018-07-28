@@ -6,7 +6,6 @@ import store from './store';
 import App from './app.vue';
 import '@/locale';
 import 'iview/dist/styles/iview.css';
-import util from './libs/util';
 
 Vue.use(iView);
 

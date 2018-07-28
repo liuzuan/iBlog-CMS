@@ -15,13 +15,9 @@ util.ajax = axios.create({
 });
 
 util.ajax.interceptors.request.use(
-    function(config) {
+    (config)=> {
         config.headers.Authorization = (localStorage.userInfo && JSON.parse(localStorage.userInfo).token) || '';
         return config;
-    },
-    function(error) {
-        // 对请求错误做些什么
-        return Promise.reject(error);
     }
 );
 
