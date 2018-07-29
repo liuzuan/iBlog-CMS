@@ -1,15 +1,11 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const cleanWebpackPlugin = require('clean-webpack-plugin');
-const UglifyJsParallelPlugin = require('webpack-uglify-parallel');
 const merge = require('webpack-merge');
 const webpackBaseConfig = require('./webpack.base.config.js');
-const os = require('os');
 const fs = require('fs');
 const path = require('path');
-const package = require('../package.json');
 
 fs.open('./build/env.js', 'w', function(err, fd) {
     const buf = 'export default "production";';

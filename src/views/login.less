@@ -1,22 +1,39 @@
-.login {
+.bg1, .bg2 {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     background-color: antiquewhite;
-    background-image: url('https://unsplash.it/1624/1027?random&t=3&gravity=north');
     background-size: cover;
     background-position: center;
+    list-style: none;
+    z-index: -1;
+    opacity: 1;
+    transition: opacity 3s;
+}
+.bg2 {
+    opacity: 0;
+}
+.login {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
     display: flex;
+    background: transparent;
     justify-content: center;
     align-items: center;
     &-con {
-        background: rgba(0,0,0,.3);
+        background: rgba(255, 255, 255, 0.3);
         padding: 20px 50px;
         border-radius: 5px;
         width: 460px;
         &-header {
             font-size: 24px;
             font-weight: 700;
-            color: #fff;
+            color: #000;
             text-align: center;
             padding: 30px 0;
         }
@@ -47,7 +64,7 @@
         .login-tip {
             font-size: 14px;
             text-align: center;
-            color: #c3c3c3;
+            color: #242323;
         }
     }
 }
