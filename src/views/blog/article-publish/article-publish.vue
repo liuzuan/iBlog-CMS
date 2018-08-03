@@ -10,19 +10,20 @@
 <template>
     <div>
         <Row>
-            <Col span="18">
+            <Col span="20">
             <Card>
                 <Form inline
+                        style="display:flex;justify-content:space-between;"
                       :label-width="80">
-                    <FormItem style="margin-bottom:0"
+                    <FormItem style="margin:0"
                               label="文章标题">
-                        <Input style="width:400px"
+                        <Input style="width:470px"
                                clearable
                                v-model="articleData.title" />
                     </FormItem>
-                    <FormItem style="margin-bottom:0"
+                    <FormItem style="margin:0"
                               label="文章软链">
-                        <Input style="width:400px"
+                        <Input style="width:470px"
                                clearable
                                v-model="articleData.alias" />
                     </FormItem>
@@ -33,7 +34,7 @@
                 </div>
             </Card>
             </Col>
-            <Col span="6"
+            <Col span="4"
                  class="padding-left-10">
             <Card>
                 <p slot="title">
