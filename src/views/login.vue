@@ -3,7 +3,6 @@
 </style>
 
 <template>
-
     <div>
         <div class="login"
              @keydown.enter="handleSubmit">
