@@ -1,8 +1,7 @@
 <template>
     <div>
         <template v-for="(item, index) in menuList">
-            <div style="text-align: center;"
-                 :key="index">
+            <div :key="index">
                 <Dropdown transfer
                           v-if="item.children.length !== 1"
                           placement="right-start"

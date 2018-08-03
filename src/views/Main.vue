@@ -14,7 +14,8 @@
                     :menu-list="menuList">
                     <div slot="top" class="logo-con">
                         <p v-show="!shrink">博客管理系统</p>
-                        <img v-show="shrink" src="http://liuzuann.com/image/favicon.ico" key="min-logo" />
+                        <p v-show="shrink">CMS</p>
+                        <!-- <img v-show="shrink" src="http://liuzuann.com/image/favicon.ico" key="min-logo" /> -->
                     </div>
                 </shrinkable-menu>
             </scroll-bar>

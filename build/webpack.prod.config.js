@@ -14,7 +14,7 @@ fs.open('./build/env.js', 'w', function(err, fd) {
 
 module.exports = merge(webpackBaseConfig, {
     externals: {
-        vue: 'vue',
+        vue: 'Vue',
         axios: 'axios',
         iview: 'iview'
     },
@@ -31,16 +31,16 @@ module.exports = merge(webpackBaseConfig, {
             filename: '[name].[hash].css',
             allChunks: true
         }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor',
-            minChunks: function(module, count) {
-                return (
-                    module.resource &&
-                    /\.js$/.test(module.resource) &&
-                    module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0
-                );
-            }
-        }),
+        // new webpack.optimize.CommonsChunkPlugin({
+        //     name: 'vendor',
+        //     minChunks: function(module, count) {
+        //         return (
+        //             module.resource &&
+        //             /\.js$/.test(module.resource) &&
+        //             module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0
+        //         );
+        //     }
+        // }),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: '"production"'

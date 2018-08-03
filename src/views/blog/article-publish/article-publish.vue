@@ -3,7 +3,7 @@
     @import './article-publish.less';
     .CodeMirror,
     .CodeMirror-scroll {
-        max-height: 635px;
+        height: ~'calc(100vh - 290px)';
     }
 </style>
 
@@ -117,7 +117,7 @@ export default {
             data = data || {};
             getArticle(data).then(res => {
                 this.articleData = res.data.data[0];
-                this.articleData.categoryName = this.articleData.category.name
+                this.articleData.categoryName = this.articleData.category.name;
                 this.mde.value(this.articleData.content);
             });
         },
@@ -144,7 +144,7 @@ export default {
                 this.publishLoading = true;
                 this.categories.forEach(val => {
                     if (val.name === this.articleData.categoryName) {
-                        this.articleData.category = val._id
+                        this.articleData.category = val._id;
                     }
                 });
                 delete this.articleData.createTime;
@@ -180,6 +180,16 @@ export default {
                 element: document.getElementById('markdown_editor'),
                 placeholder: '支持Markdown语法',
                 tabSize: 4,
+                spellChecker: false,
+                insertTexts: {
+                    horizontalRule: ['', '\n\n-----\n\n'],
+                    image: ['![](http://', ')'],
+                    link: ['[', '](http://)'],
+                    table: [
+                        '',
+                        '\n\n| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| Text     | Text      | Text     |\n\n'
+                    ]
+                },
                 toolbar: [
                     'bold',
                     'italic',
