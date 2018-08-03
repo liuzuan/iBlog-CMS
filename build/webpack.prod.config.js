@@ -24,7 +24,7 @@ module.exports = merge(webpackBaseConfig, {
     },
     plugins: [
         new cleanWebpackPlugin(['CMS/*'], {
-            root: path.resolve(__dirname, '../')
+            root: path.resolve(__dirname, '../../iBlog/public/')
         }),
         new ExtractTextPlugin({
             filename: '[name].[hash].css',

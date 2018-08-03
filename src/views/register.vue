@@ -5,8 +5,13 @@
 <template>
     <div class="login"
          @keydown.enter="handleSubmit">
+        <div class='bg1'
+             :style='{ backgroundImage: `url(${url1})`,opacity:op1}'></div>
+        <div class='bg2'
+             :style='{ backgroundImage: `url(${url2})`,opacity:op2}'></div>
         <div class="login-con">
-            <p class='login-con-header' slot="title">
+            <p class='login-con-header'
+               slot="title">
                 欢迎注册
             </p>
             <div class="form-con">
@@ -77,14 +82,58 @@ export default {
                     { required: true, message: '请再次输入新密码', trigger: 'change' },
                     { validator: valideRePassword, trigger: 'change' }
                 ]
-            }
+            },
+            url1: '',
+            url2: '',
+            op1: 1,
+            op2: 0,
+            is_firstBg: true,
+            loading: false,
+            timer: ''
         };
     },
+    created() {
+        this.timer = setInterval(() => {
+            !this.loading && this.randomBg();
+        }, 4000);
+    },
+    beforeDestroy() {
+        clearInterval(this.timer);
+    },
     methods: {
+        bghandle(url) {
+            this.is_firstBg = !this.is_firstBg;
+            this.loading = false;
+            if (this.is_firstBg) {
+                this.url1 = url;
+                this.op1 = 1;
+                this.op2 = 0;
+            } else {
+                this.url2 = url;
+                this.op1 = 0;
+                this.op2 = 1;
+            }
+        },
+        randomBg() {
+            let img = new Image();
+            let url = `https://picsum.photos/1624/1027?image=${Math.round(Math.random() * 1000)}&gravity=north`;
+            this.loading = true;
+            img.src = url;
+            if (img.complete) {
+                this.bghandle(url);
+            } else {
+                img.onload = () => {
+                    this.bghandle(url);
+                };
+                img.onerror = () => {
+                    this.loading = false;
+                };
+            }
+        },
         handleSubmit() {
             this.$refs.loginForm.validate(async valid => {
                 if (valid) {
-                    var newpwd = sha1(this.form.password);
+                    let newpwd = sha1(this.form.password);
                     await register({ userName: this.form.userName, password: newpwd }).then(
                         res => {
                             if (res.data.success) {
