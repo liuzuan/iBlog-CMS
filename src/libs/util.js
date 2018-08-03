@@ -66,11 +66,7 @@ util.getRouterObjByName = function(routers, name) {
 };
 
 util.handleTitle = function(vm, item) {
-    if (typeof item.title === 'object') {
-        return vm.$t(item.title.i18n);
-    } else {
-        return item.title;
-    }
+    return item.title;
 };
 
 util.setCurrentPath = function(vm, name) {

@@ -59,7 +59,7 @@ export const otherRouter = {
     redirect: '/home',
     component: Main,
     children: [
-        { path: 'home', title: { i18n: 'home' }, name: 'home_index', component: () => import('@/views/home/home.vue') },
+        { path: 'home', title: '首页', name: 'home_index', component: () => import('@/views/home/home.vue') },
         {
             path: 'ownspace',
             title: '个人中心',

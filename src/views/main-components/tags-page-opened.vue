@@ -3,10 +3,15 @@
 </style>
 
 <template>
-    <div ref="scrollCon" @DOMMouseScroll="handlescroll" @mousewheel="handlescroll" class="tags-outer-scroll-con">
+    <div ref="scrollCon"
+         @DOMMouseScroll="handlescroll"
+         @mousewheel="handlescroll"
+         class="tags-outer-scroll-con">
         <div class="close-all-tag-con">
-            <Dropdown transfer @on-click="handleTagsOption">
-                <Button size="small" type="primary">
+            <Dropdown transfer
+                      @on-click="handleTagsOption">
+                <Button size="small"
+                        type="primary">
                     标签选项
                     <Icon type="arrow-down-b"></Icon>
                 </Button>
@@ -16,19 +21,19 @@
                 </DropdownMenu>
             </Dropdown>
         </div>
-        <div ref="scrollBody" class="tags-inner-scroll-body" :style="{left: tagBodyLeft + 'px'}">
+        <div ref="scrollBody"
+             class="tags-inner-scroll-body"
+             :style="{left: tagBodyLeft + 'px'}">
             <transition-group name="taglist-moving-animation">
-                <Tag 
-                    type="dot"
-                    v-for="(item, index) in pageTagsList" 
-                    ref="tagsPageOpened"
-                    :key="item.name" 
-                    :name="item.name" 
-                    @on-close="closePage"
-                    @click.native="linkTo(item)"
-                    :closable="item.name==='home_index'?false:true"
-                    :color="item.children?(item.children[0].name===currentPageName?'blue':'default'):(item.name===currentPageName?'blue':'default')"
-                >{{ itemTitle(item) }}</Tag>
+                <Tag type="dot"
+                     v-for="(item, index) in pageTagsList"
+                     ref="tagsPageOpened"
+                     :key="item.name"
+                     :name="item.name"
+                     @on-close="closePage"
+                     @click.native="linkTo(item)"
+                     :closable="item.name==='home_index'?false:true"
+                     :color="item.children?(item.children[0].name===currentPageName?'blue':'default'):(item.name===currentPageName?'blue':'default')">{{ itemTitle(item) }}</Tag>
             </transition-group>
         </div>
     </div>
@@ -36,11 +41,9 @@
 
 <script>
 import Vue from 'vue';
-import VueI18n from 'vue-i18n';
-Vue.use(VueI18n);
 export default {
     name: 'tagsPageOpened',
-    data () {
+    data() {
         return {
             currentPageName: this.$route.name,
             tagBodyLeft: 0,
@@ -52,35 +55,31 @@ export default {
         pageTagsList: Array,
         beforePush: {
             type: Function,
-            default: (item) => {
+            default: item => {
                 return true;
             }
         }
     },
     computed: {
-        title () {
+        title() {
             return this.$store.state.app.currentTitle;
         },
-        tagsList () {
+        tagsList() {
             return this.$store.state.app.pageOpenedList;
         }
     },
     methods: {
-        itemTitle (item) {
-            if (typeof item.title === 'object') {
-                return this.$t(item.title.i18n);
-            } else {
-                return item.title;
-            }
+        itemTitle(item) {
+            return item.title;
         },
-        closePage (event, name) {
+        closePage(event, name) {
             let pageOpenedList = this.$store.state.app.pageOpenedList;
             let lastPageObj = pageOpenedList[0];
             if (this.currentPageName === name) {
                 let len = pageOpenedList.length;
                 for (let i = 1; i < len; i++) {
                     if (pageOpenedList[i].name === name) {
-                        if (i < (len - 1)) {
+                        if (i < len - 1) {
                             lastPageObj = pageOpenedList[i + 1];
                         } else {
                             lastPageObj = pageOpenedList[i - 1];
@@ -100,7 +99,7 @@ export default {
                 this.linkTo(lastPageObj);
             }
         },
-        linkTo (item) {
+        linkTo(item) {
             let routerObj = {};
             routerObj.name = item.name;
             if (item.argu) {
@@ -113,21 +112,26 @@ export default {
                 this.$router.push(routerObj);
             }
         },
-        handlescroll (e) {
+        handlescroll(e) {
             var type = e.type;
             let delta = 0;
             if (type === 'DOMMouseScroll' || type === 'mousewheel') {
-                delta = (e.wheelDelta) ? e.wheelDelta : -(e.detail || 0) * 40;
+                delta = e.wheelDelta ? e.wheelDelta : -(e.detail || 0) * 40;
             }
             let left = 0;
             if (delta > 0) {
                 left = Math.min(0, this.tagBodyLeft + delta);
             } else {
                 if (this.$refs.scrollCon.offsetWidth - 100 < this.$refs.scrollBody.offsetWidth) {
-                    if (this.tagBodyLeft < -(this.$refs.scrollBody.offsetWidth - this.$refs.scrollCon.offsetWidth + 100)) {
+                    if (
+                        this.tagBodyLeft < -(this.$refs.scrollBody.offsetWidth - this.$refs.scrollCon.offsetWidth + 100)
+                    ) {
                         left = this.tagBodyLeft;
                     } else {
-                        left = Math.max(this.tagBodyLeft + delta, this.$refs.scrollCon.offsetWidth - this.$refs.scrollBody.offsetWidth - 100);
+                        left = Math.max(
+                            this.tagBodyLeft + delta,
+                            this.$refs.scrollCon.offsetWidth - this.$refs.scrollBody.offsetWidth - 100
+                        );
                     }
                 } else {
                     this.tagBodyLeft = 0;
@@ -135,7 +139,7 @@ export default {
             }
             this.tagBodyLeft = left;
         },
-        handleTagsOption (type) {
+        handleTagsOption(type) {
             if (type === 'clearAll') {
                 this.$store.commit('clearAllTags');
                 this.$router.push({
@@ -146,20 +150,26 @@ export default {
             }
             this.tagBodyLeft = 0;
         },
-        moveToView (tag) {
+        moveToView(tag) {
             if (tag.offsetLeft < -this.tagBodyLeft) {
                 // 标签在可视区域左侧
                 this.tagBodyLeft = -tag.offsetLeft + 10;
-            } else if (tag.offsetLeft + 10 > -this.tagBodyLeft && tag.offsetLeft + tag.offsetWidth < -this.tagBodyLeft + this.$refs.scrollCon.offsetWidth - 100) {
+            } else if (
+                tag.offsetLeft + 10 > -this.tagBodyLeft &&
+                tag.offsetLeft + tag.offsetWidth < -this.tagBodyLeft + this.$refs.scrollCon.offsetWidth - 100
+            ) {
                 // 标签在可视区域
-                this.tagBodyLeft = Math.min(0, this.$refs.scrollCon.offsetWidth - 100 - tag.offsetWidth - tag.offsetLeft - 20);
+                this.tagBodyLeft = Math.min(
+                    0,
+                    this.$refs.scrollCon.offsetWidth - 100 - tag.offsetWidth - tag.offsetLeft - 20
+                );
             } else {
                 // 标签在可视区域右侧
                 this.tagBodyLeft = -(tag.offsetLeft - (this.$refs.scrollCon.offsetWidth - 100 - tag.offsetWidth) + 20);
             }
         }
     },
-    mounted () {
+    mounted() {
         this.refsTag = this.$refs.tagsPageOpened;
         setTimeout(() => {
             this.refsTag.forEach((item, index) => {
@@ -172,7 +182,7 @@ export default {
         this.tagsCount = this.tagsList.length;
     },
     watch: {
-        '$route' (to) {
+        $route(to) {
             this.currentPageName = to.name;
             this.$nextTick(() => {
                 this.refsTag.forEach((item, index) => {

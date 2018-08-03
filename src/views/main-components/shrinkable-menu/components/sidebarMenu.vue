@@ -65,11 +65,7 @@ export default {
             this.$emit('on-change', active);
         },
         itemTitle(item) {
-            if (typeof item.title === 'object') {
-                return this.$t(item.title.i18n);
-            } else {
-                return item.title;
-            }
+            return item.title;
         }
     },
     updated() {
