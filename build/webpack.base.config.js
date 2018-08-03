@@ -4,12 +4,12 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HappyPack = require('happypack');
 var happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
-function resolve (dir) {
+function resolve(dir) {
     return path.join(__dirname, dir);
 }
 module.exports = {
     entry: {
-        main: '@/main',
+        main: '@/main'
     },
     output: {
         path: path.resolve(__dirname, '../../iBlog/public/CMS')
@@ -55,9 +55,9 @@ module.exports = {
             {
                 test: /\.less$/,
                 use: ExtractTextPlugin.extract({
-                    use: ['css-loader?minimize','autoprefixer-loader', 'less-loader'],
+                    use: ['css-loader?minimize', 'autoprefixer-loader', 'less-loader'],
                     fallback: 'style-loader'
-                }),
+                })
             },
             {
                 test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
@@ -80,8 +80,8 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.vue'],
         alias: {
-            'vue': 'vue/dist/vue.esm.js',
-            '@': resolve('../src'),
+            vue: 'vue/dist/vue.esm.js',
+            '@': resolve('../src')
         }
     }
 };

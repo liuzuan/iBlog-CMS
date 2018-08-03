@@ -1,11 +1,10 @@
 const webpack = require('webpack');
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const merge = require('webpack-merge');
 const webpackBaseConfig = require('./webpack.base.config.js');
 const fs = require('fs');
-const package = require('../package.json');
 
 fs.open('./build/env.js', 'w', function(err, fd) {
     const buf = 'export default "development";';
@@ -25,13 +24,19 @@ module.exports = merge(webpackBaseConfig, {
             allChunks: true
         }),
         new webpack.optimize.CommonsChunkPlugin({
-            name: ['vender-exten', 'vender-base'],
-            minChunks: Infinity
+            name: 'vendor',
+            minChunks: function(module, count) {
+                return (
+                    module.resource &&
+                    /\.js$/.test(module.resource) &&
+                    module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0
+                );
+            }
         }),
         new HtmlWebpackPlugin({
             filename: 'index.html',
-            template: 'index.html',
-            inject: true,
-        }),
+            template: 'index.dev.html',
+            inject: true
+          })
     ]
 });

@@ -99,6 +99,7 @@ export default {
         },
         randomBg() {
             let img = new Image();
+            let abc = '';
             let url = `https://picsum.photos/1624/1027?image=${Math.round(Math.random() * 1000)}&gravity=north`;
             this.loading = true;
             img.src = url;

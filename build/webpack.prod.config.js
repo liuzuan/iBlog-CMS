@@ -1,15 +1,11 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const cleanWebpackPlugin = require('clean-webpack-plugin');
-const UglifyJsParallelPlugin = require('webpack-uglify-parallel');
 const merge = require('webpack-merge');
 const webpackBaseConfig = require('./webpack.base.config.js');
-const os = require('os');
 const fs = require('fs');
 const path = require('path');
-const package = require('../package.json');
 
 fs.open('./build/env.js', 'w', function(err, fd) {
     const buf = 'export default "production";';
@@ -17,6 +13,11 @@ fs.open('./build/env.js', 'w', function(err, fd) {
 });
 
 module.exports = merge(webpackBaseConfig, {
+    externals: {
+        vue: 'vue',
+        axios: 'axios',
+        iview: 'iview'
+    },
     output: {
         publicPath: '/CMS/',
         filename: '[name].[hash].js',
@@ -29,6 +30,16 @@ module.exports = merge(webpackBaseConfig, {
         new ExtractTextPlugin({
             filename: '[name].[hash].css',
             allChunks: true
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'vendor',
+            minChunks: function(module, count) {
+                return (
+                    module.resource &&
+                    /\.js$/.test(module.resource) &&
+                    module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0
+                );
+            }
         }),
         new webpack.DefinePlugin({
             'process.env': {
@@ -44,15 +55,6 @@ module.exports = merge(webpackBaseConfig, {
             sourceMap: false,
             parallel: true
         }),
-        // new UglifyJsParallelPlugin({
-        //     workers: os.cpus().length,
-        //     mangle: true,
-        //     compressor: {
-        //       warnings: false,
-        //       drop_console: true,
-        //       drop_debugger: true
-        //      }
-        // }),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: 'index.html',
