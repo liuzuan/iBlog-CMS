@@ -15,7 +15,6 @@
                     <div slot="top" class="logo-con">
                         <p v-show="!shrink">博客管理系统</p>
                         <p v-show="shrink">CMS</p>
-                        <!-- <img v-show="shrink" src="http://liuzuann.com/image/favicon.ico" key="min-logo" /> -->
                     </div>
                 </shrinkable-menu>
             </scroll-bar>
@@ -114,9 +113,6 @@
             cachePage () {
                 return this.$store.state.app.cachePage;
             },
-            lang () {
-                return this.$store.state.app.lang;
-            },
             menuTheme () {
                 return this.$store.state.app.menuTheme;
             },
@@ -191,9 +187,6 @@
                 }
                 this.checkTag(to.name);
                 localStorage.currentPageName = to.name;
-            },
-            lang () {
-                util.setCurrentPath(this, this.$route.name); // 在切换语言时用于刷新面包屑
             },
             openedSubmenuArr () {
                 setTimeout(() => {

@@ -25,6 +25,16 @@
                             <Input v-model="userForm.userName"></Input>
                         </div>
                     </FormItem>
+                    <FormItem label="注册于：">
+                        <div style="display:inline-block;width:200px;">
+                            <span v-text='new Date(userInfo.createTime).toLocaleString()'></span>
+                        </div>
+                    </FormItem>
+                    <FormItem label="最近登陆：">
+                        <div style="display:inline-block;width:200px;">
+                            <span v-text='new Date(userInfo.lastLoginTime).toLocaleString()'></span>
+                        </div>
+                    </FormItem>
                     <FormItem label="登录密码：">
                         <Button type="text"
                                 size="small"
@@ -136,6 +146,11 @@ export default {
     mounted() {
         const { userName, avatar_url, _id } = JSON.parse(localStorage.userInfo);
         this.userForm = { userName, avatar_url, _id };
+    },
+    computed: {
+        userInfo() {
+            return localStorage.userInfo ? JSON.parse(localStorage.userInfo) : {};
+        }
     },
     methods: {
         showEditPassword() {

@@ -71,13 +71,14 @@ export default {
             op1: 1,
             op2: 0,
             is_firstBg: true,
-            loading: false,
+            pending: false,
             timer: ''
         };
     },
     created() {
+        this.randomBg();
         this.timer = setInterval(() => {
-            !this.loading && this.randomBg();
+            !this.pending && this.randomBg();
         }, 4000);
     },
     beforeDestroy() {
@@ -86,7 +87,7 @@ export default {
     methods: {
         bghandle(url) {
             this.is_firstBg = !this.is_firstBg;
-            this.loading = false;
+            this.pending = false;
             if (this.is_firstBg) {
                 this.url1 = url;
                 this.op1 = 1;
@@ -101,7 +102,7 @@ export default {
             let img = new Image();
             let abc = '';
             let url = `https://picsum.photos/1624/1027?image=${Math.round(Math.random() * 1000)}&gravity=north`;
-            this.loading = true;
+            this.pending = true;
             img.src = url;
             if (img.complete) {
                 this.bghandle(url);
@@ -110,7 +111,7 @@ export default {
                     this.bghandle(url);
                 };
                 img.onerror = () => {
-                    this.loading = false;
+                    this.pending = false;
                 };
             }
         },

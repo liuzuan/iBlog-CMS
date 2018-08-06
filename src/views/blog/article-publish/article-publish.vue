@@ -5,6 +5,9 @@
     .CodeMirror-scroll {
         height: ~'calc(100vh - 290px)';
     }
+    .CodeMirror-code {
+        margin-bottom: 10px;
+    }
 </style>
 
 <template>

@@ -9,7 +9,7 @@
                         :value="item.value"
                         :key="item.value">{{ item.label }}</Option>
             </Select>
-            <Select v-model="searchParams.categoryName"
+            <Select v-model="searchParams.category"
                     placeholder="文章分类"
                     style="width:150px">
                 <Option v-for="item in categoryOptions"
@@ -184,7 +184,7 @@ export default {
         getAllCategories() {
             getAllCategories().then(res => {
                 res.data.forEach(val => {
-                    this.categoryOptions.push({ label: val.name, value: val.name });
+                    this.categoryOptions.push({ label: val.name, value: val._id });
                 });
             });
         },
