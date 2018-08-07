@@ -8,6 +8,15 @@
     .CodeMirror-code {
         margin-bottom: 10px;
     }
+    .editor-toolbar.fullscreen {
+        z-index: 9999;
+    }
+    .CodeMirror-fullscreen {
+        z-index: 9999;
+    }
+    .CodeMirror-fullscreen ~ .editor-preview-side {
+        z-index: 9999;
+    }
 </style>
 
 <template>
@@ -16,7 +25,7 @@
             <Col span="20">
             <Card>
                 <Form inline
-                        style="display:flex;justify-content:space-between;"
+                      style="display:flex;justify-content:space-between;"
                       :label-width="80">
                     <FormItem style="margin:0"
                               label="文章标题">
@@ -180,9 +189,7 @@ export default {
         },
         setMde() {
             this.mde = new SimpleMDE({
-                // element: this.$refs.mde,
-                element: document.getElementById('markdown_editor'),
-                placeholder: '支持Markdown语法',
+                element: this.$refs.mde,
                 tabSize: 4,
                 spellChecker: false,
                 insertTexts: {
@@ -214,6 +221,8 @@ export default {
                     'image',
                     'table',
                     'horizontal-rule',
+                    'side-by-side',
+                    'fullscreen',
                     '|',
                     'preview',
                     'guide'

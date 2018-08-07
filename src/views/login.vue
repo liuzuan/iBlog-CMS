@@ -119,30 +119,24 @@ export default {
             this.$refs.loginForm.validate(async valid => {
                 if (valid) {
                     let newpwd = sha1(this.form.password);
-                    await login({ userName: this.form.userName, password: newpwd }).then(
-                        res => {
-                            if (res.data.success) {
-                                const userInfo = res.data.data;
-                                if (userInfo.is_manager === 1) {
-                                    Cookies.set('access', 0);
-                                } else {
-                                    Cookies.set('access', 1);
-                                }
-                                this.$Notice.success({
-                                    title: '登录成功！',
-                                    duration: 3
-                                });
-                                localStorage.setItem('userInfo', JSON.stringify(userInfo));
-                                Cookies.set('user', userInfo.userName);
-                                this.$router.push('/');
-                            } else {
-                                this.$Message.warning(res.data.desc);
-                            }
-                        },
-                        err => {
-                            console.log(err);
+                    const res = await login({ userName: this.form.userName, password: newpwd });
+                    if (res.data.success) {
+                        const userInfo = res.data.data;
+                        if (userInfo.is_manager === 1) {
+                            Cookies.set('access', 0);
+                        } else {
+                            Cookies.set('access', 1);
                         }
-                    );
+                        this.$Notice.success({
+                            title: '登录成功！',
+                            duration: 3
+                        });
+                        localStorage.setItem('userInfo', JSON.stringify(userInfo));
+                        Cookies.set('user', userInfo.userName);
+                        this.$router.push('/');
+                    } else {
+                        this.$Message.warning(res.data.desc);
+                    }
                 }
             });
         }
