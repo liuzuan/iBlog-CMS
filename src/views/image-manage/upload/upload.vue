@@ -22,7 +22,7 @@
                         :before-upload="handleBeforeUpload"
                         multiple
                         type="drag"
-                        action="http://localhost:3000/cms/upload"
+                        action="http://blog.liuzuann.com/cms/upload"
                         style="display: inline-block;width:58px;">
                     <div style="width: 58px;height:58px;line-height: 58px;">
                         <Icon type="camera"
