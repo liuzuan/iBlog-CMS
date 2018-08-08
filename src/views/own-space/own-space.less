@@ -1,37 +1,66 @@
-.own-space{
-    &-btn-box{
+.own-space {
+    &-btn-box {
         margin-bottom: 10px;
-        button{
+        button {
             padding-left: 0;
-            span{
-                color: #2D8CF0;
-                transition: all .2s;
+            span {
+                color: #2d8cf0;
+                transition: all 0.2s;
             }
-            span:hover{
-                color: #0C25F1;
-                transition: all .2s;
+            span:hover {
+                color: #0c25f1;
+                transition: all 0.2s;
             }
         }
     }
-    &-tra{
-        width:10px;
-        height:10px;
-        transform:rotate(45deg);
-        position:absolute;
-        top:50%;
-        margin-top:-6px;
-        left:-3px;
-        box-shadow:0 0 2px 3px rgba(0,0,0,.1);
-        background-color:white;z-index:100;
+    &-tra {
+        width: 10px;
+        height: 10px;
+        transform: rotate(45deg);
+        position: absolute;
+        top: 50%;
+        margin-top: -6px;
+        left: -3px;
+        box-shadow: 0 0 2px 3px rgba(0, 0, 0, 0.1);
+        background-color: white;
+        z-index: 100;
     }
-    &-input-identifycode-con{
-        position:absolute;
-        width:200px;
-        height:100px;
-        right:-220px;
-        top:50%;
-        margin-top:-50px;
-        border-radius:4px;
-        box-shadow:0 0 2px 3px rgba(0,0,0,.1);
+    &-input-identifycode-con {
+        position: absolute;
+        width: 200px;
+        height: 100px;
+        right: -220px;
+        top: 50%;
+        margin-top: -50px;
+        border-radius: 4px;
+        box-shadow: 0 0 2px 3px rgba(0, 0, 0, 0.1);
+    }
+    .admin-upload-list {
+        width: 58px;
+        height: 58px;
+        line-height: 58px;
+        position: realtive;
+    }
+    .admin-upload-list img {
+        width: 100%;
+        height: 100%;
+    }
+    .admin-upload-list-cover {
+        display: none;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.6);
+    }
+    .admin-upload-list:hover .admin-upload-list-cover {
+        display: block;
+    }
+    .admin-upload-list-cover i {
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        margin: 0 2px;
     }
 }

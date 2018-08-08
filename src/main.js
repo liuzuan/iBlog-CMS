@@ -23,6 +23,7 @@ new Vue({
         this.$store.commit('initCachepage');
         // 权限菜单过滤相关
         this.$store.commit('updateMenulist');
+        this.$store.commit('setUserInfo');
     },
     created () {
         let tagsList = [];

@@ -1,99 +1,62 @@
 <style lang="less">
     @import '../../../styles/common.less';
     @import './article-publish.less';
-    .CodeMirror,
-    .CodeMirror-scroll {
-        height: ~'calc(100vh - 290px)';
+    .CodeMirror{
+        height: ~'calc(100vh - 255px)';
     }
     .CodeMirror-code {
         margin-bottom: 10px;
     }
-    .editor-toolbar.fullscreen {
-        z-index: 9999;
-    }
-    .CodeMirror-fullscreen {
-        z-index: 9999;
-    }
-    .CodeMirror-fullscreen ~ .editor-preview-side {
-        z-index: 9999;
-    }
 </style>
 
 <template>
-    <div>
-        <Row>
-            <Col span="20">
-            <Card>
-                <Form inline
-                      style="display:flex;justify-content:space-between;"
-                      :label-width="80">
-                    <FormItem style="margin:0"
-                              label="文章标题">
-                        <Input style="width:470px"
-                               clearable
-                               v-model="articleData.title" />
-                    </FormItem>
-                    <FormItem style="margin:0"
-                              label="文章软链">
-                        <Input style="width:470px"
-                               clearable
-                               v-model="articleData.alias" />
-                    </FormItem>
-                </Form>
-                <div class="margin-top-20">
-                    <textarea ref='mde'
-                              id="markdown_editor"></textarea>
-                </div>
-            </Card>
-            </Col>
-            <Col span="4"
-                 class="padding-left-10">
-            <Card>
-                <p slot="title">
-                    <Icon type="paper-airplane"></Icon>
-                    发布
-                </p>
-                <p class="margin-top-10">
-                    <Icon type="android-time"></Icon>&nbsp;&nbsp;状&nbsp;&nbsp;&nbsp; 态：
-                    <Select size="small"
-                            style="width:90px"
-                            v-model="articleData.status">
-                        <Option v-for="item in articleStateList"
-                                :value="item.value"
-                                :key="item.value">{{ item.label }}</Option>
-                    </Select>
-                </p>
-
-                <p class="margin-top-10">
-                    <Icon type="ios-pricetags-outline"></Icon>&nbsp;&nbsp;分&nbsp;&nbsp;&nbsp;类 ：
-                    <Select size="small"
-                            style="width:90px"
-                            v-model="articleData.categoryName">
-                        <Option v-for="item in categories"
-                                :value="item.name"
-                                :key="item.name">{{ item.name }}</Option>
-                    </Select>
-                </p>
-                <p class="margin-top-10">
-                    <Icon type="pin"></Icon>&nbsp;&nbsp;&nbsp;置&nbsp;&nbsp;&nbsp;顶 ：
-                    <i-switch size="large"
-                              v-model="articleData.isTop">
-                        <span slot="open">是</span>
-                        <span slot="close">否</span>
-                    </i-switch>
-                </p>
-                <Row class="margin-top-20 publish-button-con">
-                    <span class="publish-button">
-                        <Button @click="handlePublish"
-                                :loading="publishLoading"
-                                icon="ios-checkmark"
-                                style="width:90px;"
-                                type="primary">发布</Button>
-                    </span>
-                </Row>
-            </Card>
-            </Col>
-        </Row>
+    <div style='background:#fff;'>
+        <Form inline>
+            <FormItem>
+                <Input clearable
+                       style="width:240px"
+                       placeholder="文章标题"
+                       v-model="articleData.title" />
+            </FormItem>
+            <FormItem>
+                <Input clearable
+                       style="width:240px"
+                       placeholder="文章软链"
+                       v-model="articleData.alias" />
+            </FormItem>
+            <FormItem>
+                <Select placeholder="状态" style="width:120px"
+                        v-model="articleData.status">
+                    <Option v-for="item in articleStateList"
+                            :value="item.value"
+                            :key="item.value">{{ item.label }}</Option>
+                </Select>
+            </FormItem>
+            <FormItem>
+                <Select style="width:120px"
+                        placeholder="文章分类"
+                        v-model="articleData.categoryName">
+                    <Option v-for="item in categories"
+                            :value="item.name"
+                            :key="item.name">{{ item.name }}</Option>
+                </Select>
+            </FormItem>
+            <FormItem>
+                <i-switch size="large"
+                          v-model="articleData.isTop">
+                    <span slot="open">是</span>
+                    <span slot="close">否</span>
+                </i-switch>
+            </FormItem>
+            <FormItem style="margin-right:0;float:right;">
+                <Button @click="handlePublish"
+                        :loading="publishLoading"
+                        icon="ios-checkmark"
+                        type="primary">发布</Button>
+            </FormItem>
+        </Form>
+        <textarea ref='mde'
+                  id="markdown_editor"></textarea>
     </div>
 </template>
 

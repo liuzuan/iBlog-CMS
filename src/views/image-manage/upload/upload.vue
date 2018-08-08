@@ -14,24 +14,25 @@
                 <Upload ref="upload"
                         :show-upload-list="false"
                         :default-file-list="defaultList"
-                        :on-success="handleSuccess2"
+                        :on-success="handleSuccess"
                         :format="['jpg','jpeg','png']"
                         :max-size="2048"
-                        :on-format-error="handleFormatError2"
+                        :on-format-error="handleFormatError"
                         :on-exceeded-size="handleMaxSize"
-                        :before-upload="handleBeforeUpload2"
+                        :before-upload="handleBeforeUpload"
                         multiple
                         type="drag"
-                        action="//jsonplaceholder.typicode.com/posts/"
+                        action="http://localhost:3000/cms/upload"
                         style="display: inline-block;width:58px;">
                     <div style="width: 58px;height:58px;line-height: 58px;">
                         <Icon type="camera"
                               size="20"></Icon>
                     </div>
                 </Upload>
-                <Modal title="查看图片"
+                <Modal :title="imgName"
+                       footer-hide
                        v-model="visible">
-                    <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'"
+                    <img :src="modalUrl"
                          v-if="visible"
                          style="width: 100%">
                 </Modal>
@@ -46,7 +47,7 @@
                             <img :src="item.url">
                             <div class="admin-upload-list-cover">
                                 <Icon type="ios-eye-outline"
-                                      @click.native="handleView(item.name)"></Icon>
+                                      @click.native="handleView(item)"></Icon>
                                 <Icon type="ios-trash-outline"
                                       @click.native="handleRemove(item)"></Icon>
                             </div>
@@ -73,63 +74,29 @@ export default {
                 {
                     name: 'a42bdcc1178e62b4694c830f028db5c0',
                     url: 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
-                },
-                {
-                    name: 'bc7521e033abdd1e92222d733590f104',
-                    url: 'https://o5wwk8baw.qnssl.com/bc7521e033abdd1e92222d733590f104/avatar'
                 }
             ],
+            modalUrl: '',
             imgName: '',
             visible: false,
             uploadList: []
         };
     },
     methods: {
-        handleFormatError(file) {
-            this.$Notice.warning({
-                title: '文件格式不正确',
-                desc: '文件 ' + file.name + ' 格式不正确，请选择图片文件。'
-            });
-        },
-        handleBeforeUpload(file) {
-            this.$Notice.warning({
-                title: '文件准备上传',
-                desc: '文件 ' + file.name + ' 准备上传。'
-            });
-        },
-        handleProgress(event, file) {
-            this.$Notice.info({
-                title: '文件正在上传',
-                desc: '文件 ' + file.name + ' 正在上传。'
-            });
-        },
-        handleSuccess(evnet, file) {
-            this.$Notice.success({
-                title: '文件上传成功',
-                desc: '文件 ' + file.name + ' 上传成功。'
-            });
-        },
-        handleError(event, file) {
-            this.$Notice.error({
-                title: '文件上传成功',
-                desc: '文件 ' + file.name + ' 上传失败。'
-            });
-        },
-        handleView(name) {
-            this.imgName = name;
+        handleView(item) {
+            this.modalUrl = item.url;
+            this.imgName = item.name;
             this.visible = true;
         },
         handleRemove(file) {
-            // 从 upload 实例删除数据
             const fileList = this.$refs.upload.fileList;
             this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
         },
-        handleSuccess2(res, file) {
-            // 因为上传过程为实例，这里模拟添加 url
-            file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
-            file.name = '7eb99afb9d5f317c912f08b5212fd69a';
+        handleSuccess(res, file) {
+            file.url = res.url;
+            file.name = res.name;
         },
-        handleFormatError2(file) {
+        handleFormatError(file) {
             this.$Notice.warning({
                 title: '文件格式不正确',
                 desc: '文件 ' + file.name + ' 格式不正确，请上传 jpg 或 png 格式的图片。'
@@ -141,7 +108,7 @@ export default {
                 desc: '文件 ' + file.name + ' 太大，不能超过 2M。'
             });
         },
-        handleBeforeUpload2() {
+        handleBeforeUpload() {
             const check = this.uploadList.length < 5;
             if (!check) {
                 this.$Notice.warning({

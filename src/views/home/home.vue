@@ -60,6 +60,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
     name: 'home',
     components: {},
@@ -67,9 +68,9 @@ export default {
         return {};
     },
     computed: {
-        userInfo() {
-            return localStorage.userInfo ? JSON.parse(localStorage.userInfo) : {};
-        },
+        ...mapState({
+            userInfo: state => state.user.userInfo
+        }),
         lastLoginTime() {
             return this.userInfo.lastLoginTime? new Date(this.userInfo.lastLoginTime).toLocaleString() : '这是您第一次登陆'
         }

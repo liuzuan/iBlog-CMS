@@ -11,7 +11,7 @@
                  class="unlock-avator-con"
                  :style="{marginLeft: avatorLeft}">
                 <img class="unlock-avator-img"
-                     :src="avatorPath">
+                     :src="userInfo.avatar_url">
                 <div class="unlock-avator-cover">
                     <span>
                         <Icon type="unlocked"
@@ -51,7 +51,7 @@
 import Cookies from 'js-cookie';
 import { login } from '@/libs/api.js';
 import sha1 from 'sha1';
-
+import { mapState } from 'vuex';
 export default {
     name: 'Unlock',
     data() {
@@ -69,12 +69,9 @@ export default {
         }
     },
     computed: {
-        userName() {
-            return JSON.parse(localStorage.userInfo).userName;
-        },
-        avatorPath() {
-            return JSON.parse(localStorage.userInfo).avatar_url;
-        }
+        ...mapState({
+            userInfo: state => state.user.userInfo
+        }),
     },
     methods: {
         handleClickAvator() {
@@ -83,8 +80,8 @@ export default {
             this.$refs.inputEle.focus();
         },
         handleUnlock() {
-            var newpwd = sha1(this.password);
-            login({ userName: this.userName, password: newpwd }).then(
+            let newpwd = sha1(this.password);
+            login({ userName: this.userInfo.userName, password: newpwd }).then(
                 res => {
                     if (res.data.success) {
                         this.avatorLeft = '0px';

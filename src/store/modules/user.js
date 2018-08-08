@@ -1,9 +1,11 @@
 import Cookies from 'js-cookie';
 
 const user = {
-    state: {},
+    state: {
+        userInfo: {} // 用户信息
+    },
     mutations: {
-        logout (state, vm) {
+        logout(state, vm) {
             Cookies.remove('user');
             Cookies.remove('password');
             Cookies.remove('access');
@@ -16,6 +18,15 @@ const user = {
             if (theme) {
                 localStorage.theme = theme;
             }
+        },
+        setUserInfo(state, userInfo) {
+            let user = JSON.parse(localStorage.userInfo);
+            state.userInfo = user;
+        }
+    },
+    actions: {
+        setUserInfo({ commit }) {
+            commit('setUserInfo');
         }
     }
 };

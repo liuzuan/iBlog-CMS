@@ -51,8 +51,8 @@
 
 <script>
 import Cookies from 'js-cookie';
-import axios from 'axios';
 import { login } from '../libs/api.js';
+import { mapActions } from 'vuex';
 
 import sha1 from 'sha1';
 export default {
@@ -85,6 +85,7 @@ export default {
         clearInterval(this.timer);
     },
     methods: {
+        ...mapActions(['setUserInfo']),
         bghandle(url) {
             this.is_firstBg = !this.is_firstBg;
             this.pending = false;
@@ -133,6 +134,7 @@ export default {
                         });
                         localStorage.setItem('userInfo', JSON.stringify(userInfo));
                         Cookies.set('user', userInfo.userName);
+                        await this.setUserInfo();
                         this.$router.push('/');
                     } else {
                         this.$Message.warning(res.data.desc);

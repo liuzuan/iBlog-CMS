@@ -1,7 +1,3 @@
-<style lang="less">
-    @import '../main.less';
-</style>
-
 <template>
     <div ref="scrollCon"
          @DOMMouseScroll="handlescroll"
@@ -10,10 +6,10 @@
         <div class="close-all-tag-con">
             <Dropdown transfer
                       @on-click="handleTagsOption">
-                <Button size="small"
-                        type="primary">
-                    标签选项
-                    <Icon type="arrow-down-b"></Icon>
+                <Button type="primary">
+                    <Icon type="ios-close"></Icon>
+                    <Icon type="md-backspace" />
+                    标签
                 </Button>
                 <DropdownMenu slot="list">
                     <DropdownItem name="clearAll">关闭所有</DropdownItem>

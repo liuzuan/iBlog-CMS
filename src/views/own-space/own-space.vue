@@ -3,7 +3,7 @@
 </style>
 
 <template>
-    <div>
+    <div class='own-space'>
         <Card>
             <p slot="title">
                 <Icon type="person"></Icon>
@@ -16,8 +16,24 @@
                       label-position="right"
                       :rules="validate">
                     <FormItem label="用户头像：">
-                        <img :src="userForm.avatar_url"
-                             alt="">
+                        <Upload ref="upload"
+                                :show-upload-list="false"
+                                :on-success="handleSuccess"
+                                :format="['jpg','jpeg','png']"
+                                :max-size="2048"
+                                :on-format-error="handleFormatError"
+                                :on-exceeded-size="handleMaxSize"
+                                type="drag"
+                                action="http://localhost:3000/cms/upload"
+                                style="display: inline-block;width:58px;">
+                            <div class='admin-upload-list'>
+                                <img :src="userForm.avatar_url">
+                                <div class="admin-upload-list-cover">
+                                    <Icon type="ios-camera"
+                                          size="20"></Icon>
+                                </div>
+                            </div>
+                        </Upload>
                     </FormItem>
                     <FormItem label="用户姓名："
                               prop="userName">
@@ -52,6 +68,7 @@
                 </Form>
             </div>
         </Card>
+        </Modal>
         <Modal v-model="editPasswordModal"
                :closable='false'
                :mask-closable=false
@@ -92,6 +109,10 @@
 </template>
 
 <script>
+import { editUserInfo } from '@/libs/api';
+import Cookies from 'js-cookie';
+import { mapActions } from 'vuex';
+
 export default {
     name: 'ownspace_index',
     data() {
@@ -112,14 +133,12 @@ export default {
         };
         return {
             userForm: {
-                userName: '',
-                cellphone: '',
-                company: '',
-                department: ''
+                userName: ''
             },
             uid: '', // 登录用户的userId
             save_loading: false,
             editPasswordModal: false, // 修改密码模态框显示
+            showPassConfirm: false,
             savePassLoading: false,
             oldPassError: '',
             editPasswordForm: {
@@ -153,6 +172,31 @@ export default {
         }
     },
     methods: {
+        ...mapActions(['setUserInfo']),
+        handleView(item) {
+            this.modalUrl = item.url;
+            this.imgName = item.name;
+            this.visible = true;
+        },
+        handleRemove(file) {
+            const fileList = this.$refs.upload.fileList;
+            this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+        },
+        handleSuccess(res) {
+            this.$set(this.userForm, 'avatar_url', res.url);
+        },
+        handleFormatError(file) {
+            this.$Notice.warning({
+                title: '文件格式不正确',
+                desc: '文件 ' + file.name + ' 格式不正确，请上传 jpg 或 png 格式的图片。'
+            });
+        },
+        handleMaxSize(file) {
+            this.$Notice.warning({
+                title: '超出文件大小限制',
+                desc: '文件 ' + file.name + ' 太大，不能超过 2M。'
+            });
+        },
         showEditPassword() {
             this.editPasswordModal = true;
         },
@@ -169,7 +213,30 @@ export default {
                 name: lastPageName
             });
         },
-        saveEdit() {},
+        saveEdit() {
+            this.$refs['userForm'].validate(async valid => {
+                if (valid) {
+                    this.save_loading = true;
+                    const res = await editUserInfo(this.userForm);
+                    if (res.data.success) {
+                        this.save_loading = false;
+                        const userInfo = res.data.data;
+                        if (userInfo.is_manager === 1) {
+                            Cookies.set('access', 0);
+                        } else {
+                            Cookies.set('access', 1);
+                        }
+                        this.$Notice.success({
+                            title: res.data.desc,
+                            duration: 3
+                        });
+                        localStorage.setItem('userInfo', JSON.stringify(userInfo));
+                        Cookies.set('user', userInfo.userName);
+                        await this.setUserInfo();
+                    }
+                }
+            });
+        },
         cancelEditPass() {
             this.editPasswordModal = false;
         },
