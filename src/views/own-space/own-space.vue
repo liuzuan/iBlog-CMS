@@ -38,7 +38,9 @@
                     <FormItem label="用户姓名："
                               prop="userName">
                         <div style="display:inline-block;width:200px;">
-                            <Input v-model="userForm.userName"></Input>
+                            <span v-if='!showNameInput' >{{userForm.userName}}</span>
+                            <Icon v-if='!showNameInput' type="compose" size="18" class='edit-name' @click.native='showNameInput = true' />
+                            <Input v-else v-model="userForm.userName"></Input>
                         </div>
                     </FormItem>
                     <FormItem label="注册于：">
@@ -46,7 +48,7 @@
                             <span v-text='new Date(userInfo.createTime).toLocaleString()'></span>
                         </div>
                     </FormItem>
-                    <FormItem label="最近登陆：">
+                    <FormItem label="最近登录：">
                         <div style="display:inline-block;width:200px;">
                             <span v-text='new Date(userInfo.lastLoginTime).toLocaleString()'></span>
                         </div>
@@ -139,6 +141,7 @@ export default {
             save_loading: false,
             editPasswordModal: false, // 修改密码模态框显示
             showPassConfirm: false,
+            showNameInput: false,
             savePassLoading: false,
             oldPassError: '',
             editPasswordForm: {
@@ -220,16 +223,18 @@ export default {
                     const res = await editUserInfo(this.userForm);
                     if (res.data.success) {
                         this.save_loading = false;
+                        this.showNameInput = false;
                         const userInfo = res.data.data;
                         if (userInfo.is_manager === 1) {
                             Cookies.set('access', 0);
                         } else {
                             Cookies.set('access', 1);
                         }
-                        this.$Notice.success({
-                            title: res.data.desc,
-                            duration: 3
-                        });
+                        // this.$Notice.success({
+                        //     title: res.data.desc,
+                        //     duration: 3
+                        // });
+                        this.$Message.success(res.data.desc)
                         localStorage.setItem('userInfo', JSON.stringify(userInfo));
                         Cookies.set('user', userInfo.userName);
                         await this.setUserInfo();
