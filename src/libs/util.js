@@ -9,6 +9,8 @@ util.title = function(title) {
 
 const ajaxUrl = env === 'development' ? 'http://localhost:3000/cms' : 'http://blog.liuzuann.com/cms';
 
+util.ajaxUrl = ajaxUrl;
+
 util.ajax = axios.create({
     baseURL: ajaxUrl,
     timeout: 30000

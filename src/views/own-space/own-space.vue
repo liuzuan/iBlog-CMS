@@ -24,7 +24,7 @@
                                 :on-format-error="handleFormatError"
                                 :on-exceeded-size="handleMaxSize"
                                 type="drag"
-                                action="http://localhost:3000/cms/upload"
+                                :action="uploadUrl"
                                 style="display: inline-block;width:58px;">
                             <div class='admin-upload-list'>
                                 <img :src="userForm.avatar_url">
@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import { editUserInfo } from '@/libs/api';
+import { editUserInfo, uploadUrl } from '@/libs/api';
 import Cookies from 'js-cookie';
 import { mapActions } from 'vuex';
 
@@ -172,6 +172,9 @@ export default {
     computed: {
         userInfo() {
             return localStorage.userInfo ? JSON.parse(localStorage.userInfo) : {};
+        },
+        uploadUrl() {
+            return uploadUrl;
         }
     },
     methods: {

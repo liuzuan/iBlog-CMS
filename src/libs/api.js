@@ -39,3 +39,6 @@ export const login = data => http('post', '/login', data);
 
 // 用户登录
 export const editUserInfo = data => http('post', '/editUserInfo', data);
+
+// 上传文件url
+export const uploadUrl = util.ajaxUrl + '/upload';

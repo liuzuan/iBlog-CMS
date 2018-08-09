@@ -22,7 +22,7 @@
                         :before-upload="handleBeforeUpload"
                         multiple
                         type="drag"
-                        action="http://blog.liuzuann.com/cms/upload"
+                        :action="uploadUrl"
                         style="display: inline-block;width:58px;">
                     <div style="width: 58px;height:58px;line-height: 58px;">
                         <Icon type="camera"
@@ -66,6 +66,8 @@
 </template>
 
 <script>
+import { uploadUrl } from '@/libs/api';
+
 export default {
     name: 'file-upload',
     data() {
@@ -81,6 +83,11 @@ export default {
             visible: false,
             uploadList: []
         };
+    },
+    computed: {
+        uploadUrl() {
+            return uploadUrl;
+        }
     },
     methods: {
         handleView(item) {
