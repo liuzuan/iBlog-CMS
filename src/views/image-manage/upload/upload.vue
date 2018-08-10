@@ -9,8 +9,16 @@
                 <Icon type="ios-analytics"></Icon>
                 图片上传
             </p>
-            <div class="height-492px">
-                <Col span="8">
+            <div>
+                <Form>
+                    <FormItem label='上传至：'>
+                        <Select v-model="uploadTo"
+                                style="width:200px">
+                            <Option :value="0">文章</Option>
+                            <Option :value="1">图库</Option>
+                        </Select>
+                    </FormItem>
+                </Form>
                 <Upload ref="upload"
                         :show-upload-list="false"
                         :default-file-list="defaultList"
@@ -22,23 +30,14 @@
                         :before-upload="handleBeforeUpload"
                         multiple
                         type="drag"
-                        :action="uploadUrl"
-                        style="display: inline-block;width:58px;">
-                    <div style="width: 58px;height:58px;line-height: 58px;">
-                        <Icon type="camera"
-                              size="20"></Icon>
+                        :action="uploadUrl">
+                    <div style="padding: 20px 0">
+                        <Icon type="ios-cloud-upload"
+                              size="52"
+                              style="color: #3399ff"></Icon>
+                        <p>Click or drag files here to upload</p>
                     </div>
                 </Upload>
-                <Modal :title="imgName"
-                       footer-hide
-                       v-model="visible">
-                    <img :src="modalUrl"
-                         v-if="visible"
-                         style="width: 100%">
-                </Modal>
-                </Col>
-                <Col span="16"
-                     class="padding-left-10">
                 <div class="height-460px">
                     <div class="admin-upload-list"
                          v-for="item in uploadList"
@@ -59,9 +58,15 @@
                         </template>
                     </div>
                 </div>
-                </Col>
             </div>
         </Card>
+        <Modal :title="imgName"
+               footer-hide
+               v-model="visible">
+            <img :src="modalUrl"
+                 v-if="visible"
+                 style="width: 100%">
+        </Modal>
     </div>
 </template>
 
@@ -72,21 +77,17 @@ export default {
     name: 'file-upload',
     data() {
         return {
-            defaultList: [
-                {
-                    name: 'a42bdcc1178e62b4694c830f028db5c0',
-                    url: 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
-                }
-            ],
+            defaultList: [],
             modalUrl: '',
             imgName: '',
+            uploadTo: 0,
             visible: false,
             uploadList: []
         };
     },
     computed: {
         uploadUrl() {
-            return uploadUrl;
+            return this.uploadTo ? uploadUrl : uploadUrl + '?gallery=true';
         }
     },
     methods: {
