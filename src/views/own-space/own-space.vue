@@ -23,7 +23,6 @@
                                 :max-size="2048"
                                 :on-format-error="handleFormatError"
                                 :on-exceeded-size="handleMaxSize"
-                                type="drag"
                                 :action="uploadUrl"
                                 style="display: inline-block;width:58px;">
                             <div class='admin-upload-list'>
