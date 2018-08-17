@@ -29,23 +29,25 @@
                 <p>点击或者拖拽文件至此框</p>
             </div>
         </Upload>
-        <div class="admin-upload-list"
-             v-for="item in uploadList"
-             :key="item.url">
-            <template v-if="item.status === 'finished'">
-                <img :src="item.url">
-                <div class="admin-upload-list-cover">
-                    <Icon type="ios-eye-outline"
-                          @click.native="handleView(item)"></Icon>
-                    <Icon type="ios-trash-outline"
-                          @click.native="handleRemove(item)"></Icon>
-                </div>
-            </template>
-            <template v-else>
-                <Progress v-if="item.showProgress"
-                          :percent="item.percentage"
-                          hide-info></Progress>
-            </template>
+        <div style='height:auto;margin-top:20px;'>
+            <div class="admin-upload-list"
+                 v-for="item in uploadList"
+                 :key="item.url">
+                <template v-if="item.status === 'finished'">
+                    <img :src="item.url">
+                    <div class="admin-upload-list-cover">
+                        <Icon type="ios-eye-outline"
+                              @click.native="handleView(item)"></Icon>
+                        <Icon type="ios-trash-outline"
+                              @click.native="handleRemove(item)"></Icon>
+                    </div>
+                </template>
+                <template v-else>
+                    <Progress v-if="item.showProgress"
+                              :percent="item.percentage"
+                              hide-info></Progress>
+                </template>
+            </div>
         </div>
         <Modal :title="imgName"
                footer-hide

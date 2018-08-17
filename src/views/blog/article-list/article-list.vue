@@ -24,8 +24,11 @@
                     icon="ios-search"
                     @click='submitSearch'>查询</Button>
             <Button type="primary"
-                    icon="ios-search"
+                    icon="ios-close"
                     @click='clearSearch'>清除</Button>
+            <!-- <Button type="primary"
+                    icon="ios-checkmark"
+                    @click='updateAll'>更新全部文章</Button> -->
             <i-switch style='float:right;margin-top:4px;'
                       v-model="canDel">
             </i-switch>
@@ -44,7 +47,7 @@
     </div>
 </template>
 <script>
-import { getAllCategories, getArticle, editArticle, delArticle } from '@/libs/api';
+import { getAllCategories, getArticle, editArticle, delArticle, updateAllArticle } from '@/libs/api';
 export default {
     name: 'artical-list',
     data() {
@@ -194,6 +197,11 @@ export default {
         },
         clearSearch() {
             this.searchParams = {};
+        },
+        async updateAll() {
+            const res = await updateAllArticle();
+            console.log(res);
+            this.$Message.success(res.data.desc);
         },
         toEditor(data) {
             this.$router.push({ path: `article-publish?_id=${data._id}` });

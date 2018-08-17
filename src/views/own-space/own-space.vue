@@ -232,14 +232,12 @@ export default {
                         } else {
                             Cookies.set('access', 1);
                         }
-                        // this.$Notice.success({
-                        //     title: res.data.desc,
-                        //     duration: 3
-                        // });
                         this.$Message.success(res.data.desc)
                         localStorage.setItem('userInfo', JSON.stringify(userInfo));
                         Cookies.set('user', userInfo.userName);
                         await this.setUserInfo();
+                    } else {
+                        this.$Message.error(res.data.desc)
                     }
                 }
             });
