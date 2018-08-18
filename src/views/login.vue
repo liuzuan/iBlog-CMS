@@ -6,6 +6,8 @@
     <div>
         <div class="login"
              @keydown.enter="handleSubmit">
+            <div class='bg3'
+                 :style='{ opacity: op3}'></div>
             <div class='bg1'
                  :style='{ backgroundImage: `url(${url1})`,opacity:op1}'></div>
             <div class='bg2'
@@ -68,8 +70,9 @@ export default {
             },
             url1: '',
             url2: '',
-            op1: 1,
+            op1: 0,
             op2: 0,
+            op3: 1,
             is_firstBg: true,
             pending: false,
             timer: ''
@@ -89,6 +92,7 @@ export default {
         bghandle(url) {
             this.is_firstBg = !this.is_firstBg;
             this.pending = false;
+            this.op3 = 0;
             if (this.is_firstBg) {
                 this.url1 = url;
                 this.op1 = 1;
