@@ -26,9 +26,6 @@
             <Button type="primary"
                     icon="ios-close"
                     @click='clearSearch'>清除</Button>
-            <!-- <Button type="primary"
-                    icon="ios-checkmark"
-                    @click='updateAll'>更新全部文章</Button> -->
             <i-switch style='float:right;margin-top:4px;'
                       v-model="canDel">
             </i-switch>
