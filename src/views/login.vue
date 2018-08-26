@@ -132,10 +132,6 @@ export default {
                         } else {
                             Cookies.set('access', 1);
                         }
-                        // this.$Notice.success({
-                        //     title: '登录成功！',
-                        //     duration: 3
-                        // });
                         localStorage.setItem('userInfo', JSON.stringify(userInfo));
                         Cookies.set('user', userInfo.userName);
                         await this.setUserInfo();

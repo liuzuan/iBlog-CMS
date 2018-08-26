@@ -176,7 +176,7 @@ export default {
     },
     methods: {
         getList(data) {
-            data = data || { status: 1 };
+            data = data.status? data : {};
             data.page = this.page;
             data.pageSize = this.pageSize;
             getArticle(data).then(res => {
@@ -200,7 +200,6 @@ export default {
         },
         async updateAll() {
             const res = await updateAllArticle();
-            console.log(res);
             this.$Message.success(res.data.desc);
         },
         toEditor(data) {
@@ -214,6 +213,10 @@ export default {
                 });
             } else {
                 editArticle({ _id: id, status: status }).then(res => {
+                    if (res.data.code !== 0) {
+                        this.$Message.error(res.data.desc);
+                        return;
+                    }
                     status === 0 && this.$Message.success('文章隐藏成功！');
                     status === 1 && this.$Message.success('文章恢复成功！');
                     this.getList(this.searchParams);

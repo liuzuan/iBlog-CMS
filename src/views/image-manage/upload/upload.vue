@@ -1,4 +1,4 @@
-<style lang="less">
+ <style lang="less">
     @import 'upload.less';
 </style>
 
@@ -76,10 +76,13 @@ export default {
     },
     computed: {
         uploadUrl() {
-            return this.uploadTo ? uploadUrl + '?gallery=true' : uploadUrl;
+            return this.uploadTo ? uploadUrl + '?dir=gallery' : uploadUrl + '?dir=article';
         }
     },
     methods: {
+        abc(){
+            console.log(111)
+        },
         handleView(item) {
             this.modalUrl = item.url;
             this.imgName = item.name;

@@ -20,8 +20,8 @@ module.exports = merge(webpackBaseConfig, {
     },
     output: {
         publicPath: '/CMS/',
-        filename: '[name].[hash].js',
-        chunkFilename: '[name].[hash].chunk.js'
+        filename: '[name].[chunkhash].js',
+        chunkFilename: '[name].[chunkhash].chunk.js'
     },
     plugins: [
         new cleanWebpackPlugin(['CMS/*'], {

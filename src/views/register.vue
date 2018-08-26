@@ -56,6 +56,7 @@
 <script>
 import Cookies from 'js-cookie';
 import { register } from '../libs/api.js';
+import { mapActions } from 'vuex';
 import sha1 from 'sha1';
 export default {
     data() {
@@ -101,6 +102,7 @@ export default {
         clearInterval(this.timer);
     },
     methods: {
+        ...mapActions(['setUserInfo']),
         bghandle(url) {
             this.is_firstBg = !this.is_firstBg;
             this.loading = false;
@@ -134,21 +136,21 @@ export default {
             this.$refs.loginForm.validate(async valid => {
                 if (valid) {
                     let newpwd = sha1(this.form.password);
-                    await register({ userName: this.form.userName, password: newpwd }).then(
-                        res => {
-                            if (res.data.success) {
-                                this.$Message.success('登录成功！');
-                                localStorage.setItem('userInfo', JSON.stringify(res.data.data));
-                                Cookies.set('user', res.data.data.userName);
-                                this.$router.push('/');
-                            } else {
-                                this.$Message.success(res.data.desc);
-                            }
-                        },
-                        err => {
-                            console.log(err);
+                    const res = await register({ userName: this.form.userName, password: newpwd });
+                    if (res.data.success) {
+                        const userInfo = res.data.data;
+                        if (userInfo.is_manager === 1) {
+                            Cookies.set('access', 0);
+                        } else {
+                            Cookies.set('access', 1);
                         }
-                    );
+                        localStorage.setItem('userInfo', JSON.stringify(userInfo));
+                        Cookies.set('user', userInfo.userName);
+                        await this.setUserInfo();
+                        this.$router.push('/');
+                    } else {
+                        this.$Message.warning(res.data.desc);
+                    }
                 }
             });
         }

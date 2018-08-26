@@ -23,7 +23,7 @@
                                 :max-size="2048"
                                 :on-format-error="handleFormatError"
                                 :on-exceeded-size="handleMaxSize"
-                                :action="uploadUrl"
+                                :action="uploadUrl+'?dir=avatar'"
                                 style="display: inline-block;width:58px;">
                             <div class='admin-upload-list'>
                                 <img :src="userForm.avatar_url">
