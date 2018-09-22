@@ -1,12 +1,12 @@
 <style lang="less">
-    @import '../../../styles/common.less';
-    @import './article-publish.less';
-    .CodeMirror{
-        height: ~'calc(100vh - 255px)';
-    }
-    .CodeMirror-code {
-        margin-bottom: 10px;
-    }
+@import '../../../styles/common.less';
+@import './article-publish.less';
+.CodeMirror {
+    height: ~'calc(100vh - 255px)';
+}
+.CodeMirror-code {
+    margin-bottom: 10px;
+}
 </style>
 
 <template>
@@ -25,7 +25,8 @@
                        v-model="articleData.alias" />
             </FormItem>
             <FormItem>
-                <Select placeholder="状态" style="width:120px"
+                <Select placeholder="状态"
+                        style="width:120px"
                         v-model="articleData.status">
                     <Option v-for="item in articleStateList"
                             :value="item.value"
