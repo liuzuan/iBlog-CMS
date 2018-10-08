@@ -40,7 +40,7 @@ export const register = data => http('post', '/register', data);
 // 用户登录
 export const login = data => http('post', '/login', data);
 
-// 用户登录
+// 修改用户信息
 export const editUserInfo = data => http('post', '/editUserInfo', data);
 
 // 上传文件url

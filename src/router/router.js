@@ -156,5 +156,4 @@ export const appRouter = [
     }
 ];
 
-// 所有上面定义的路由都要写在下面的routers里
 export const routers = [loginRouter, registerRouter, otherRouter, locking, ...appRouter, page500, page403, page404];
