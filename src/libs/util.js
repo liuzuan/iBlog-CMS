@@ -16,12 +16,10 @@ util.ajax = axios.create({
     timeout: 30000
 });
 
-util.ajax.interceptors.request.use(
-    (config)=> {
-        config.headers.Authorization = (localStorage.userInfo && JSON.parse(localStorage.userInfo).token) || '';
-        return config;
-    }
-);
+util.ajax.interceptors.request.use(config => {
+    config.headers.Authorization = (localStorage.userInfo && JSON.parse(localStorage.userInfo).token) || '';
+    return config;
+});
 
 util.inOf = function(arr, targetArr) {
     let res = true;
