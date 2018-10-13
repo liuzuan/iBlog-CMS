@@ -1,10 +1,10 @@
 # 写在前面
 
-本项目为博客管理系统，服务于个人博客，预计功能有：注册、登录、用户信息修改、用户头像上传、文章分类添加、文章发布、文章修改、图片上传至cdn。
+本项目为个人博客管理系统，服务于个人博客，预计实现功能有：注册、登录、用户信息修改、用户头像上传、文章分类添加、文章发布、文章修改、图片上传至七牛cdn图床。
 
 # 说明
 
-> 项目代码仓库地址：[博客 github 地址](https://github.com/liuzuan/iBlog) 、 [后台管理系统 github 地址](https://github.com/liuzuan/iBlog-CMS)
+> 项目代码地址：[博客 github 地址](https://github.com/liuzuan/iBlog) 、 [后台管理系统 github 地址](https://github.com/liuzuan/iBlog-CMS)
 
 # 技术栈
 
