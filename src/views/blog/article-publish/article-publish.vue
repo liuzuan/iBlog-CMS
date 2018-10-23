@@ -7,6 +7,10 @@
 .CodeMirror-code {
     margin-bottom: 10px;
 }
+
+.editor-preview-side.editor-preview-active-side, .CodeMirror {
+    font-size: 16px;
+}
 </style>
 
 <template>
