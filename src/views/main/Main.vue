@@ -1,36 +1,23 @@
 <style lang="less">
-    @import './main.less';
+@import './main.less';
 </style>
 <template>
-    <div class="main"
-         :class="{'main-hide-text': shrink}">
-        <div class="sidebar-menu-con"
-             :style="{width: shrink?'60px':'200px', overflow: shrink ? 'visible' : 'auto'}">
+    <div class="main" :class="{'main-hide-text': shrink}">
+        <div class="sidebar-menu-con" :style="{width: shrink?'60px':'200px', overflow: shrink ? 'visible' : 'auto'}">
             <scroll-bar ref="scrollBar">
-                <shrinkable-menu :shrink="shrink"
-                                 @on-change="handleSubmenuChange"
-                                 :theme="menuTheme"
-                                 :before-push="beforePush"
-                                 :open-names="openedSubmenuArr"
-                                 :menu-list="menuList">
-                    <div slot="top"
-                         class="logo-con">
-                        <p style='padding-left:22px;'
-                           v-show="!shrink">博客管理系统</p>
+                <shrinkable-menu :shrink="shrink" @on-change="handleSubmenuChange" :theme="menuTheme" :before-push="beforePush" :open-names="openedSubmenuArr" :menu-list="menuList">
+                    <div slot="top" class="logo-con">
+                        <p style="padding-left:22px;" v-show="!shrink">博客管理系统</p>
                         <p v-show="shrink">CMS</p>
                     </div>
                 </shrinkable-menu>
             </scroll-bar>
         </div>
-        <div class="main-header-con"
-             :style="{paddingLeft: shrink?'60px':'200px'}">
+        <div class="main-header-con" :style="{paddingLeft: shrink?'60px':'200px'}">
             <div class="main-header">
                 <div class="navicon-con">
-                    <Button :style="{transform: 'rotateZ(' + (this.shrink ? '-90' : '0') + 'deg)'}"
-                            type="text"
-                            @click="toggleClick">
-                        <Icon type="navicon"
-                              size="32"></Icon>
+                    <Button :style="{transform: 'rotateZ(' + (this.shrink ? '-90' : '0') + 'deg)'}" type="text" @click="toggleClick">
+                        <Icon type="navicon" size="32"></Icon>
                     </Button>
                 </div>
                 <div class="header-middle-con">
@@ -39,31 +26,22 @@
                     </div>
                 </div>
                 <div class="header-avator-con">
-                    <full-screen v-model="isFullScreen"
-                                 @on-change="fullscreenChange"></full-screen>
+                    <full-screen v-model="isFullScreen" @on-change="fullscreenChange"></full-screen>
                     <lock-screen></lock-screen>
                     <message-tip v-model="mesCount"></message-tip>
-
                     <div class="user-dropdown-menu-con">
-                        <Row type="flex"
-                             justify="end"
-                             align="middle"
-                             class="user-dropdown-innercon">
-                            <Dropdown transfer
-                                      trigger="click"
-                                      @on-click="handleClickUserDropdown">
+                        <Row type="flex" justify="end" align="middle" class="user-dropdown-innercon">
+                            <Dropdown transfer trigger="click" @on-click="handleClickUserDropdown">
                                 <a href="javascript:void(0)">
                                     <span class="main-user-name">{{ userInfo.userName }}</span>
                                     <Icon type="arrow-down-b"></Icon>
                                 </a>
                                 <DropdownMenu slot="list">
                                     <DropdownItem name="ownSpace">个人中心</DropdownItem>
-                                    <DropdownItem name="loginout"
-                                                  divided>退出登录</DropdownItem>
+                                    <DropdownItem name="loginout" divided>退出登录</DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
-                            <Avatar :src="userInfo.avatar_url"
-                                    style="background: #619fe7;margin-left: 10px;"></Avatar>
+                            <Avatar :src="userInfo.avatar_url" style="background: #619fe7;margin-left: 10px;"></Avatar>
                         </Row>
                     </div>
                 </div>
@@ -72,8 +50,7 @@
                 <tags-page-opened :pageTagsList="pageTagsList"></tags-page-opened>
             </div>
         </div>
-        <div class="single-page-con"
-             :style="{left: shrink?'60px':'200px'}">
+        <div class="single-page-con" :style="{left: shrink?'60px':'200px'}">
             <div class="single-page">
                 <keep-alive :include="cachePage">
                     <router-view></router-view>
