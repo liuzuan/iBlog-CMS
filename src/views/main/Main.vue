@@ -83,12 +83,12 @@
     </div>
 </template>
 <script>
-import shrinkableMenu from './main-components/shrinkable-menu/shrinkable-menu.vue';
-import tagsPageOpened from './main-components/tags-page-opened.vue';
-import breadcrumbNav from './main-components/breadcrumb-nav.vue';
-import fullScreen from './main-components/fullscreen.vue';
-import lockScreen from './main-components/lockscreen/lockscreen.vue';
-import messageTip from './main-components/message-tip.vue';
+import shrinkableMenu from './components/shrinkable-menu/shrinkable-menu.vue';
+import tagsPageOpened from './components/tags-page-opened.vue';
+import breadcrumbNav from './components/breadcrumb-nav.vue';
+import fullScreen from './components/fullscreen.vue';
+import lockScreen from './components/lockscreen/lockscreen.vue';
+import messageTip from './components/message-tip.vue';
 import Cookies from 'js-cookie';
 import util from '@/libs/util.js';
 import scrollBar from '@/views/blog/scroll-bar/vue-scroller-bars';

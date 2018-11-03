@@ -1,4 +1,4 @@
-import Main from '@/views/Main.vue';
+import Main from '@/views/main/Main.vue';
 
 // 不作为Main组件的子页面展示的页面单独写，如下
 export const loginRouter = {
@@ -7,7 +7,7 @@ export const loginRouter = {
     meta: {
         title: 'Login - 登录'
     },
-    component: () => import('@/views/login.vue')
+    component: () => import('@/views/login/login.vue')
 };
 
 export const registerRouter = {
@@ -16,7 +16,9 @@ export const registerRouter = {
     meta: {
         title: 'register - 注册'
     },
-    component: () => import('@/views/register.vue')
+    // component: () => import('@/views/login/register.vue')
+    component: () => import('@/views/login/login.vue')
+
 };
 
 export const page404 = {
@@ -49,7 +51,7 @@ export const page500 = {
 export const locking = {
     path: '/locking',
     name: 'locking',
-    component: () => import('@/views/main-components/lockscreen/components/locking-page.vue')
+    component: () => import('@/views/main/components/lockscreen/components/locking-page.vue')
 };
 
 // 作为Main组件的子页面展示但是不在左侧菜单显示的路由写在otherRouter里

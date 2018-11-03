@@ -20,8 +20,10 @@ const user = {
             }
         },
         setUserInfo(state, userInfo) {
-            let user = JSON.parse(localStorage.userInfo);
-            state.userInfo = user;
+            if (localStorage.userInfo) {
+                let user = JSON.parse(localStorage.userInfo);
+                state.userInfo = user;
+            }
         }
     },
     actions: {

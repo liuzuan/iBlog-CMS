@@ -1,5 +1,5 @@
 <style lang="less">
-    @import './own-space.less';
+@import './own-space.less';
 </style>
 
 <template>
@@ -37,9 +37,14 @@
                     <FormItem label="用户姓名："
                               prop="userName">
                         <div style="display:inline-block;width:200px;">
-                            <span v-if='!showNameInput' >{{userForm.userName}}</span>
-                            <Icon v-if='!showNameInput' type="compose" size="18" class='edit-name' @click.native='showNameInput = true' />
-                            <Input v-else v-model="userForm.userName"></Input>
+                            <span v-if='!showNameInput'>{{userForm.userName}}</span>
+                            <Icon v-if='!showNameInput'
+                                  type="compose"
+                                  size="18"
+                                  class='edit-name'
+                                  @click.native='showNameInput = true' />
+                            <Input v-else
+                                   v-model="userForm.userName"></Input>
                         </div>
                     </FormItem>
                     <FormItem label="注册于：">
@@ -69,7 +74,6 @@
                 </Form>
             </div>
         </Card>
-        </Modal>
         <Modal v-model="editPasswordModal"
                :closable='false'
                :mask-closable=false
@@ -232,12 +236,12 @@ export default {
                         } else {
                             Cookies.set('access', 1);
                         }
-                        this.$Message.success(res.data.desc)
+                        this.$Message.success(res.data.desc);
                         localStorage.setItem('userInfo', JSON.stringify(userInfo));
                         Cookies.set('user', userInfo.userName);
                         await this.setUserInfo();
                     } else {
-                        this.$Message.error(res.data.desc)
+                        this.$Message.error(res.data.desc);
                     }
                 }
             });

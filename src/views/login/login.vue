@@ -1,18 +1,19 @@
 <style lang="less">
-    @import './login.less';
+@import './login.less';
 </style>
 
 <template>
-    <div>
-        <div class="login"
-             @keydown.enter="handleSubmit">
-            <div class='bg3'
-                 :style='{ opacity: op3}'></div>
-            <div class='bg1'
-                 :style='{ backgroundImage: `url(${url1})`,opacity:op1}'></div>
-            <div class='bg2'
-                 :style='{ backgroundImage: `url(${url2})`,opacity:op2}'></div>
-            <div class="login-con">
+    <div class="login"
+         @keydown.enter="handleSubmit">
+        <div class='bg3'
+             :style='{ opacity: op3}'></div>
+        <div class='bg1'
+             :style='{ backgroundImage: `url(${url1})`,opacity:op1}'></div>
+        <div class='bg2'
+             :style='{ backgroundImage: `url(${url2})`,opacity:op2}'></div>
+        <transition name="switch">
+            <div class="login-con"
+                 v-show='is_login'>
                 <p class='login-con-header'
                    slot="title">
                     欢迎登录
@@ -46,19 +47,69 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </transition>
+        <transition name="switch">
+            <div class="login-con"
+                 v-show='!is_login'>
+                <p class='login-con-header'
+                   slot="title">
+                    欢迎注册
+                </p>
+                <div class="form-con">
+                    <Form ref="loginForm"
+                          :model="form"
+                          :rules="rules">
+                        <FormItem prop="userName">
+                            <Input v-model="form.userName"
+                                   placeholder="用户名">
+                            </Input>
+                        </FormItem>
+                        <FormItem prop="password">
+                            <Input type="password"
+                                   v-model="form.password"
+                                   placeholder="密码">
+                            </Input>
+                        </FormItem>
+                        <FormItem v-show='"1"'
+                                  prop="password2">
+                            <Input type="password"
+                                   v-model="form.password2"
+                                   placeholder="确认密码">
+                            </Input>
+                        </FormItem>
+                        <FormItem>
+                            <Button @click="handleSubmit"
+                                    type="primary"
+                                    icon='log-in'
+                                    long>注册</Button>
+                        </FormItem>
+                    </Form>
+                    <div class="login-tip">
+                        <p>我有账号
+                            <router-link to='/login'>前往登录</router-link>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </transition>
     </div>
-
 </template>
 
 <script>
 import Cookies from 'js-cookie';
-import { login } from '../libs/api.js';
+import { login } from '../../libs/api.js';
 import { mapActions } from 'vuex';
 
 import sha1 from 'sha1';
 export default {
     data() {
+        const valideRePassword = (rule, value, callback) => {
+            if (value !== this.form.password) {
+                callback(new Error('两次输入密码不一致'));
+            } else {
+                callback();
+            }
+        };
         return {
             form: {
                 userName: '',
@@ -66,7 +117,15 @@ export default {
             },
             rules: {
                 userName: [{ required: true, message: '账号不能为空', trigger: 'change' }],
-                password: [{ required: true, message: '密码不能为空', trigger: 'change' }]
+                password: [
+                    { required: true, message: '请输入密码', trigger: 'change' },
+                    { min: 6, message: '请至少输入6个字符', trigger: 'change' },
+                    { max: 16, message: '最多输入16个字符', trigger: 'change' }
+                ],
+                password2: [
+                    { required: true, message: '请再次输入密码', trigger: 'change' },
+                    { validator: valideRePassword, trigger: 'change' }
+                ]
             },
             url1: '',
             url2: '',
@@ -86,6 +145,11 @@ export default {
     },
     beforeDestroy() {
         clearInterval(this.timer);
+    },
+    computed: {
+        is_login() {
+            return this.$route.name === 'login';
+        }
     },
     methods: {
         ...mapActions(['setUserInfo']),
@@ -124,7 +188,9 @@ export default {
             this.$refs.loginForm.validate(async valid => {
                 if (valid) {
                     let newpwd = sha1(this.form.password);
-                    const res = await login({ userName: this.form.userName, password: newpwd });
+                    const res = this.is_login
+                        ? await login({ userName: this.form.userName, password: newpwd })
+                        : await register({ userName: this.form.userName, password: newpwd });
                     if (res.data.success) {
                         const userInfo = res.data.data;
                         if (userInfo.is_manager === 1) {
