@@ -63,7 +63,7 @@
 
 <script>
 import Cookies from 'js-cookie';
-import { login } from '../../libs/api.js';
+import { login, register } from '../../libs/api.js';
 import { mapActions } from 'vuex';
 
 import sha1 from 'sha1';
