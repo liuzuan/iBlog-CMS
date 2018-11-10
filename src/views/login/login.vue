@@ -11,12 +11,12 @@
             <div class="login-con" v-show='is_login'>
                 <p class='login-con-header' slot="title">欢迎登录</p>
                 <div class="form-con">
-                    <Form ref="loginForm" :model="form" :rules="rules">
+                    <Form ref="loginForm" :model="loginForm" :rules="rules">
                         <FormItem prop="userName">
-                            <Input v-model="form.userName" placeholder="用户名" />
+                            <Input v-model="loginForm.userName" placeholder="用户名" />
                         </FormItem>
                         <FormItem prop="password">
-                            <Input type="password" v-model="form.password" placeholder="密码" />
+                            <Input type="password" v-model="loginForm.password" placeholder="密码" />
                         </FormItem>
                         <FormItem>
                             <Button @click="handleSubmit" type="primary" icon='log-in' long>登录</Button>
@@ -36,15 +36,15 @@
                     欢迎注册
                 </p>
                 <div class="form-con">
-                    <Form ref="loginForm" :model="form" :rules="rules">
+                    <Form ref="registerForm" :model="registerForm" :rules="rules">
                         <FormItem prop="userName">
-                            <Input v-model="form.userName" placeholder="用户名" />
+                            <Input v-model="registerForm.userName" placeholder="用户名" />
                         </FormItem>
                         <FormItem prop="password">
-                            <Input type="password" v-model="form.password" placeholder="密码" />
+                            <Input type="password" v-model="registerForm.password" placeholder="密码" />
                         </FormItem>
                         <FormItem v-show='"1"' prop="password2">
-                            <Input type="password" v-model="form.password2" placeholder="确认密码" />
+                            <Input type="password" v-model="registerForm.password2" placeholder="确认密码" />
                         </FormItem>
                         <FormItem>
                             <Button @click="handleSubmit" type="primary" icon='log-in' long>注册</Button>
@@ -70,16 +70,21 @@ import sha1 from 'sha1';
 export default {
     data() {
         const valideRePassword = (rule, value, callback) => {
-            if (value !== this.form.password) {
+            if (value !== this.registerForm.password) {
                 callback(new Error('两次输入密码不一致'));
             } else {
                 callback();
             }
         };
         return {
-            form: {
+            loginForm: {
                 userName: '',
                 password: ''
+            },
+            registerForm: {
+                userName: '',
+                password: '',
+                password2: ''
             },
             rules: {
                 userName: [{ required: true, message: '账号不能为空', trigger: 'change' }],
@@ -151,12 +156,14 @@ export default {
             }
         },
         handleSubmit() {
-            this.$refs.loginForm.validate(async valid => {
+            const ref = this.is_login ? 'loginForm' : 'registerForm';
+            let params = this.is_login ? this.loginForm : this.registerForm;
+            this.$refs[ref].validate(async valid => {
                 if (valid) {
-                    let newpwd = sha1(this.form.password);
+                    let newpwd = sha1(params.password);
                     const res = this.is_login
-                        ? await login({ userName: this.form.userName, password: newpwd })
-                        : await register({ userName: this.form.userName, password: newpwd });
+                        ? await login({ userName: params.userName, password: newpwd })
+                        : await register({ userName: params.userName, password: newpwd });
                     if (res.data.success) {
                         const userInfo = res.data.data;
                         if (userInfo.is_manager === 1) {
