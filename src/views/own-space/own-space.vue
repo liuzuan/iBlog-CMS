@@ -253,6 +253,7 @@ export default {
             this.$refs['editPasswordForm'].validate(valid => {
                 if (valid) {
                     this.savePassLoading = true;
+                    
                     // you can write ajax request here
                 }
             });

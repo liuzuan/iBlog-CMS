@@ -133,7 +133,11 @@ export default {
                 !this.isAdd &&
                     editArticle(this.articleData).then(
                         res => {
-                            this.$Message.success(res.data.desc);
+                            if (res.data.code === 0) {
+                                this.$Message.success(res.data.desc);
+                            }else {
+                                this.$Message.error(res.data.desc);
+                            }
                             this.publishLoading = false;
                         },
                         err => {
@@ -143,10 +147,16 @@ export default {
                 this.isAdd &&
                     addArticle(this.articleData).then(
                         res => {
-                            this.$Message.success(res.data.desc);
+                            if (res.data.code === 0) {
+                                this.$Message.success(res.data.desc);
+                            }else {
+                                this.$Message.error(res.data.desc);
+                            }
                             this.publishLoading = false;
-                            this.mde.value('');
-                            this.articleData = {};
+                            // this.$Message.success(res.data.desc);
+                            // this.publishLoading = false;
+                            // this.mde.value('');
+                            // this.articleData = {};
                         },
                         err => {
                             console.log(err);

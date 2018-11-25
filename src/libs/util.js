@@ -7,7 +7,9 @@ util.title = function(title) {
     window.document.title = title;
 };
 
-const ajaxUrl = env === 'development' ? 'http://localhost:3000/cms' : 'http://blog.liuzuann.com/cms';
+const ajaxUrl = env === 'development' ? 'http://localhost:3000/cms' : 'https://blog.liuzuann.com/cms';
+
+util.routerModel = env === 'development' ? 'hash':'history';
 
 util.ajaxUrl = ajaxUrl;
 

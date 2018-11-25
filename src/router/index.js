@@ -9,7 +9,8 @@ Vue.use(VueRouter);
 
 // 路由配置
 const RouterConfig = {
-    // mode: 'history',
+    mode: Util.routerModel,
+    base: '/CMS',
     routes: routers
 };
 
