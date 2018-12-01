@@ -156,6 +156,7 @@ export default {
         createNew() {
             this.showModal = true;
             this.isCreate = true;
+            this.newData = {};
         },
         editorRow(row) {
             this.showModal = true;
